@@ -1,0 +1,72 @@
+.masjidnow-container{
+  background-color:white;
+  color:black;
+  border:1px solid black;
+  padding:2px;
+  text-align:center;
+}
+
+.masjidnow-masjid-name{
+  font-weight:bold;
+  padding:5px;
+}
+
+.masjidnow-date{
+  font-size:12px;
+  padding:10px;
+}
+
+.masjidnow-salah-timings-table{
+  min-width:200px;
+  margin-right:auto;
+  margin-left:auto;
+  margin-top:10px;
+  margin-bottom:10px;
+}
+
+.masjidnow-salah-timings-table tr{
+  padding:3px;
+}
+
+.masjidnow-salah-timings-table td{
+  padding:5px;
+}
+
+.masjidnow-salah-timings-table .masjidnow-salah-name{
+  font-weight:bold;
+  text-align:left;
+}
+
+.masjidnow-salah-timings-table .masjidnow-salah-time{
+  text-align:right;
+}
+
+/**
+ * *************
+ * *******
+ *  THEMES 
+ * ********
+ * *************
+ * **/
+ 
+.masjidnow-theme-default.masjidnow-container
+{
+  border: 1px solid #CCC;
+  color: #666;
+}
+
+.masjidnow-theme-default .masjid-salah-row-alt{
+  background-color:#EEE;
+  color:#555;
+}
+
+
+.masjidnow-theme-blue.masjidnow-container{
+  border: 1px solid #BBF;
+}
+
+.masjidnow-theme-blue .masjid-salah-row-alt{
+  background-color:#EEF;
+}
+
+
