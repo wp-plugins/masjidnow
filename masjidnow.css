@@ -24,12 +24,14 @@
   margin-bottom:10px;
 }
 
-.masjidnow-salah-timings-table tr{
-  padding:3px;
+.masjidnow-salah-timings-table td{
+  padding:7px;
+  padding-top:7px;
+  padding-bottom:7px;
 }
 
-.masjidnow-salah-timings-table td{
-  padding:5px;
+.masjidnow-salah-timings-table th{
+  text-align:center;
 }
 
 .masjidnow-salah-timings-table .masjidnow-salah-name{
@@ -37,8 +39,15 @@
   text-align:left;
 }
 
-.masjidnow-salah-timings-table .masjidnow-salah-time{
-  text-align:right;
+.masjidnow-salah-timings-table .masjidnow-salah-time-adhan{
+  text-align:center;
+  padding:4px;
+}
+
+.masjidnow-salah-timings-table .masjidnow-salah-time-iqamah{
+  text-align:center;
+  padding:4px;
+  font-weight:bold;
 }
 
 /**

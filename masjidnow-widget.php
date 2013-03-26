@@ -9,6 +9,8 @@ Author URI: http://masjidnow.com
 License: GPL2
 */
 
+include("libs/PrayTime.php");
+include("libs/MasjidNowTimeZoneNames.php");
 
 
 class MasjidNow_Widget extends WP_Widget
@@ -32,9 +34,23 @@ class MasjidNow_Widget extends WP_Widget
  
   function form($instance)
   {
-    $instance = wp_parse_args((array) $instance, array( 'masjid-id' => '', 'theme' => 'default' ));
+    $instance = wp_parse_args((array) $instance, array( 
+        'masjid-id' => '',
+        'theme' => 'default',
+        'time-zone-id' => "America/New_York",
+        'pray-time-calc-method' => 2,
+        'latitude' => 42.5,
+        'longitude' => -83,
+        'pray-time-asr-juristic' => 0
+      )
+    );
     $masjid_id = $instance['masjid-id'];
     $theme = $instance['theme'];
+    $time_zone_id = $instance['time-zone-id'];
+    $latitude = $instance['latitude'];
+    $longitude = $instance['longitude'];
+    $pray_time_calc_method = $instance['pray-time-calc-method'];
+    $pray_time_asr_juristic = $instance['pray-time-asr-juristic'];
     
     include 'masjidnow-admin.php';
   }
@@ -44,6 +60,11 @@ class MasjidNow_Widget extends WP_Widget
     $instance = $old_instance;
     $instance['masjid-id'] = $new_instance['masjid-id'];
     $instance['theme'] = $new_instance['theme'];
+    $instance['time-zone-id'] = $new_instance['time-zone-id'];
+    $instance['latitude'] = $new_instance['latitude'];
+    $instance['longitude'] = $new_instance['longitude'];
+    $instance['pray-time-calc-method'] = $new_instance['pray-time-calc-method'];
+    $instance['pray-time-asr-juristic'] = $new_instance['pray-time-asr-juristic'];
     return $instance;
   }
  
@@ -57,6 +78,12 @@ class MasjidNow_Widget extends WP_Widget
     $masjid_id = empty($instance['masjid-id']) ? '' : apply_filters('widget_title', $instance['masjid-id']);  
     $theme = empty($instance['theme']) ? 'default' : apply_filters('widget_title', $instance['theme']);    
     $theme = self::THEME_PREFIX.$theme;
+       
+    $time_zone_id = empty($instance['time-zone-id']) ? "America/New_York" : apply_filters('widget_title', $instance['time-zone-id']);    
+    $latitude = empty($instance['latitude']) ? 2 : apply_filters('widget_title', $instance['latitude']); 
+    $longitude = empty($instance['longitude']) ? 2 : apply_filters('widget_title', $instance['longitude']); 
+    $pray_time_calc_method = empty($instance['pray-time-calc-method']) ? 2 : apply_filters('widget_title', $instance['pray-time-calc-method']); 
+    $pray_time_asr_juristic = empty($instance['pray-time-asr-juristic']) ? 2 : apply_filters('widget_title', $instance['pray-time-asr-juristic']); 
  
     if (!empty($masjid_id))
     {
