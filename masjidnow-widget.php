@@ -96,7 +96,12 @@ class MasjidNow_Widget extends WP_Widget
       }
       else
       {
+        //wordpress changes this elsewhere, so save it and reset it at the end of the function.
+        $original_time_zone_id = date_default_timezone_get();
+        date_default_timezone_set($time_zone_id);
+        $date_time_zone = new DateTimeZone($time_zone_id);
         include("masjidnow-daily-output.php");
+        date_default_timezone_set($original_time_zone_id);
       }
     }
     
@@ -133,7 +138,6 @@ class MasjidNow_Widget extends WP_Widget
       return NULL;
     }
   }
-  
   
   function add_stylesheet() {
       // Respects SSL, Style.css is relative to the current file
