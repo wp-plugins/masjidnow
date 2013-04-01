@@ -4,7 +4,7 @@ Donate link:
 Tags: masjidnow, iqamah, salah, islam, masjid, mosque, salat, prayer
 Requires at least: 3.5.1
 Tested up to: 3.5.1
-Stable tag: 0.9.1beta
+Stable tag: 0.9.2beta
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,6 +31,9 @@ This section describes how to install the plugin and get it working.
 Email me through the contact form at masjidnow.com
 
 == Changelog ==
+
+= 0.9.2 =
+* Fixed incorrect calculated salah times due to wrong lat/lon being used.
 
 = 0.9.1 =
 * Added ability to show calculated prayer timings.
