@@ -1,21 +1,10 @@
 <?php
 
-//DEBUG ITEMS TO BE REMOVED!!!!!!!
 
 $pray_time_high_lats_method = 1; //Midnight
 $pray_time_time_format = 1; //time12
 
-$latitude = 42.649235;
-$longitude = -82.983738;
 
-//DEBUG ITEMS TO BE REMOVED!!!!!!!
-
-
-//wordpress changes this elsewhere, so save it and reset it at the end of the file.
-$original_time_zone_id = date_default_timezone_get();
-
-date_default_timezone_set($time_zone_id);
-$date_time_zone = new DateTimeZone($time_zone_id);
 $date_time_now = new DateTime("now", $date_time_zone);
 
 $masjid_name = $salah_timings->masjid_name;
@@ -101,6 +90,3 @@ $iqamah_date_str = $salah_timings->month."/".$salah_timings->day."/".$salah_timi
  </div>
  
 </div>
-
-
-<?php date_default_timezone_set($original_time_zone_id); ?>
