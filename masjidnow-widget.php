@@ -3,7 +3,7 @@
 Plugin Name: MasjidNow
 Plugin URI: http://URI_Of_Page_Describing_Plugin_and_Updates
 Description: A simple widget for adding your mosque's prayer times (from MasjidNow.com) to your website.
-Version: 0.9beta
+Version: 0.9.2
 Author: Yousuf Jukaku
 Author URI: http://masjidnow.com
 License: GPL2
@@ -16,7 +16,10 @@ include("libs/MasjidNowTimeZoneNames.php");
 class MasjidNow_Widget extends WP_Widget
 {
   
-  const BASE_URL = "http://www.masjidnow.com/api/salah_timings/daily.json?masjid_id=";
+  const BASE_URL = "http://www.masjidnow.com/api/v2/salah_timings/";
+  const PATH_DAILY = "daily.json?";
+  const PATH_MONTHLY = "monthly.json?";
+  const PARAM_MASJID_ID = "masjid_id";
   
   const THEME_PREFIX = "masjidnow-theme-";
   
@@ -75,7 +78,7 @@ class MasjidNow_Widget extends WP_Widget
     add_action( 'wp_enqueue_scripts', 'add_stylesheet' );
   
     echo $before_widget;
-    $masjid_id = empty($instance['masjid-id']) ? '' : apply_filters('widget_title', $instance['masjid-id']);  
+    $masjid_id = empty($instance['masjid-id']) ? NULL : apply_filters('widget_title', $instance['masjid-id']);  
     $theme = empty($instance['theme']) ? 'default' : apply_filters('widget_title', $instance['theme']);    
     $theme = self::THEME_PREFIX.$theme;
        
@@ -85,20 +88,19 @@ class MasjidNow_Widget extends WP_Widget
     $pray_time_calc_method = empty($instance['pray-time-calc-method']) ? 2 : apply_filters('widget_title', $instance['pray-time-calc-method']); 
     $pray_time_asr_juristic = empty($instance['pray-time-asr-juristic']) ? 2 : apply_filters('widget_title', $instance['pray-time-asr-juristic']); 
  
-    if (!empty($masjid_id))
+    // Do Your Widgety Stuff Here...
+    $response = NULL;
+    if(!empty($masjid_id))
     {
-      // Do Your Widgety Stuff Here...
-      $salah_timings = $this->get_daily_timings($masjid_id);
-      if($salah_timings == NULL)
-      {
-        $error = "Error. Masjid with id $masjid_id does not have salah timings on MasjidNow.com.";
-        $this->output_error($error, $theme);
-      }
-      else
-      {
-        include("masjidnow-daily-output.php");
-      }
+      $response = $this->get_monthly_timings($masjid_id);
     }
+    
+    //wordpress changes this elsewhere, so save it and reset it at the end of the function.
+    $original_time_zone_id = date_default_timezone_get();
+    date_default_timezone_set($time_zone_id);
+    $date_time_zone = new DateTimeZone($time_zone_id);
+    include("masjidnow-daily-output.php");
+    date_default_timezone_set($original_time_zone_id);
     
     echo $after_widget;
   }
@@ -112,21 +114,12 @@ class MasjidNow_Widget extends WP_Widget
   
   function get_daily_timings($masjid_id)
   {
-    $url = self::BASE_URL.$masjid_id;
+    $url = $this->get_daily_timings_url($masjid_id);
     $response = @file_get_contents($url);
     if($response !== FALSE)
     {
-      $salah_timings = json_decode($response);
-    
-      if($salah_timings == NULL)
-      {
-        return NULL;
-      }
-      else
-      {
-        $salah_timings = $salah_timings->salah_timing;
-        return $salah_timings;
-      }
+      $response = json_decode($response);
+      return $response;
     }
     else
     {
@@ -134,6 +127,49 @@ class MasjidNow_Widget extends WP_Widget
     }
   }
   
+  function get_monthly_timings($masjid_id)
+  {
+    $url = $this->get_monthly_timings_url($masjid_id);
+    $response = @file_get_contents($url);
+    if($response !== FALSE)
+    {
+      $response = json_decode($response);
+      return $response;
+    }
+    else
+    {
+      return NULL;
+    }
+  }
+  
+  function get_daily_timings_url($masjid_id)
+  {
+    return self::BASE_URL.self::PATH_DAILY.self::PARAM_MASJID_ID."=".$masjid_id;
+  }
+  
+  function get_monthly_timings_url($masjid_id)
+  {
+    return self::BASE_URL.self::PATH_MONTHLY.self::PARAM_MASJID_ID."=".$masjid_id;
+  }
+  
+  function get_closest_timing($date_time, $salah_timings)
+  {
+    $day = $date_time->format('d');
+    $month = $date_time->format('m');
+    $year = $date_time->format('Y');
+    $timing = $salah_timings[0];
+    //assumes the salah timings array is sorted, lowest month and day first and increasing
+    for($i =0; $i < count($salah_timings); $i++)
+    {
+      $timing = $salah_timings[$i]->salah_timing;
+      if($timing->day >= $day && $timing->month >= $month)
+      {
+        return $timing;
+      }
+    }
+    
+    return $timing;
+  }
   
   function add_stylesheet() {
       // Respects SSL, Style.css is relative to the current file

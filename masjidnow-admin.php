@@ -36,7 +36,10 @@
     <hr style="margin-top:20px; margin-bottom:20px;"/>
     
     <h3>Salah Times Calculations</h3>
-    
+    <p>
+      These settings only take effect if you don't have salah timings uploaded to MasjidNow.com! <br/>
+      If you have timings uploaded, you can change your settings from our website.
+    </p>
     <p>
     <label for="<?php echo $this->get_field_id('latitude'); ?>"><strong>Latitude, Longitude</strong></label> <br/>
     <input class="widefat" style="width:100px" 
