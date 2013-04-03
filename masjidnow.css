@@ -1,19 +1,25 @@
 .masjidnow-container{
   background-color:white;
   color:black;
-  border:1px solid black;
   padding:2px;
   text-align:center;
 }
 
+.masjidnow-date{
+  font-size:14px;
+  font-weight:bold;
+}
+
 .masjidnow-masjid-name{
   font-weight:bold;
+  font-size:11px;
   padding:5px;
 }
 
-.masjidnow-date{
-  font-size:12px;
-  padding:10px;
+.masjidnow-iqamah-date{
+  font-size:11px;
+  padding:3px;
+  color:#555;
 }
 
 .masjidnow-salah-timings-table{
@@ -21,6 +27,7 @@
   margin-left:auto;
   margin-top:10px;
   margin-bottom:10px;
+  width:90%;
 }
 
 .masjidnow-salah-timings-table td{
@@ -31,6 +38,7 @@
 
 .masjidnow-salah-timings-table th{
   text-align:center;
+  font-size:11px;
 }
 
 .masjidnow-salah-timings-table .masjidnow-salah-name{
@@ -59,7 +67,6 @@
  
 .masjidnow-theme-default.masjidnow-container
 {
-  border: 1px solid #CCC;
   color: #666;
 }
 
@@ -70,7 +77,6 @@
 
 
 .masjidnow-theme-blue.masjidnow-container{
-  border: 1px solid #BBF;
 }
 
 .masjidnow-theme-blue .masjid-salah-row-alt{
