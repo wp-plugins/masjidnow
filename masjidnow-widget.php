@@ -3,7 +3,7 @@
 Plugin Name: MasjidNow
 Plugin URI: http://URI_Of_Page_Describing_Plugin_and_Updates
 Description: A simple widget for adding your mosque's prayer times (from MasjidNow.com) to your website.
-Version: 0.9.3
+Version: 0.9.5
 Author: Yousuf Jukaku
 Author URI: http://masjidnow.com
 License: GPL2
@@ -38,6 +38,7 @@ class MasjidNow_Widget extends WP_Widget
   function form($instance)
   {
     $instance = wp_parse_args((array) $instance, array( 
+        'title' => '',
         'masjid-id' => '',
         'theme' => 'default',
         'time-zone-id' => "America/New_York",
@@ -47,6 +48,7 @@ class MasjidNow_Widget extends WP_Widget
         'pray-time-asr-juristic' => 0
       )
     );
+    $title = $instance['title'];
     $masjid_id = $instance['masjid-id'];
     $theme = $instance['theme'];
     $time_zone_id = $instance['time-zone-id'];
@@ -61,6 +63,8 @@ class MasjidNow_Widget extends WP_Widget
   function update($new_instance, $old_instance)
   {
     $instance = $old_instance;
+    
+    $instance['title'] = $new_instance['title'];
     $instance['masjid-id'] = $new_instance['masjid-id'];
     $instance['theme'] = $new_instance['theme'];
     $instance['time-zone-id'] = $new_instance['time-zone-id'];
@@ -78,15 +82,16 @@ class MasjidNow_Widget extends WP_Widget
     add_action( 'wp_enqueue_scripts', 'add_stylesheet' );
   
     echo $before_widget;
-    $masjid_id = empty($instance['masjid-id']) ? NULL : apply_filters('widget_title', $instance['masjid-id']);  
-    $theme = empty($instance['theme']) ? 'default' : apply_filters('widget_title', $instance['theme']);    
+    $title = empty($instance['title']) ? NULL : apply_filters('widget_title', $instance['title']); 
+    $masjid_id = empty($instance['masjid-id']) ? NULL : $instance['masjid-id'];  
+    $theme = empty($instance['theme']) ? 'default' : $instance['theme'];    
     $theme = self::THEME_PREFIX.$theme;
        
-    $time_zone_id = empty($instance['time-zone-id']) ? "America/New_York" : apply_filters('widget_title', $instance['time-zone-id']);    
-    $latitude = empty($instance['latitude']) ? 2 : apply_filters('widget_title', $instance['latitude']); 
-    $longitude = empty($instance['longitude']) ? 2 : apply_filters('widget_title', $instance['longitude']); 
-    $pray_time_calc_method = empty($instance['pray-time-calc-method']) ? 2 : apply_filters('widget_title', $instance['pray-time-calc-method']); 
-    $pray_time_asr_juristic = empty($instance['pray-time-asr-juristic']) ? 2 : apply_filters('widget_title', $instance['pray-time-asr-juristic']); 
+    $time_zone_id = empty($instance['time-zone-id']) ? "America/New_York" : $instance['time-zone-id'];    
+    $latitude = empty($instance['latitude']) ? 2 : $instance['latitude']; 
+    $longitude = empty($instance['longitude']) ? 2 : $instance['longitude']; 
+    $pray_time_calc_method = empty($instance['pray-time-calc-method']) ? 2 : $instance['pray-time-calc-method']; 
+    $pray_time_asr_juristic = empty($instance['pray-time-asr-juristic']) ? 2 : $instance['pray-time-asr-juristic']; 
  
     // Do Your Widgety Stuff Here...
     $response = NULL;

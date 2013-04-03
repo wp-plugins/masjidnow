@@ -2,6 +2,13 @@
     
     <h3>General Settings</h3>
     
+    <label for="<?php echo $this->get_field_id('title'); ?>"><strong>Title</strong></label><br/>
+    <input class="widefat" 
+      id="<?php echo $this->get_field_id('title'); ?>"
+      name="<?php echo $this->get_field_name('title'); ?>"
+      type="text"
+      value="<?php echo esc_attr($title); ?>" />
+    
     <label for="<?php echo $this->get_field_id('masjid-id'); ?>"><strong>Masjid ID:</strong></label> <br/>
     <input class="widefat" 
       id="<?php echo $this->get_field_id('masjid-id'); ?>" 
