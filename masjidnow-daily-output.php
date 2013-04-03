@@ -105,7 +105,12 @@ else
 
 //$iqamah_date_str = $salah_timings->month."/".$salah_timings->day."/".$salah_timings->year; 
 ?>
-
+<?php 
+  if(!empty($title))
+	{
+    echo($before_title . $title . $after_title);
+  }
+?>      
 <div class="masjidnow-container <?php echo($theme);?>">
 
  <div class='masjidnow-masjid-name'><?php echo($masjid_name); ?></div>
