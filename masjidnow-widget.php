@@ -3,7 +3,7 @@
 Plugin Name: MasjidNow
 Plugin URI: http://URI_Of_Page_Describing_Plugin_and_Updates
 Description: A simple widget for adding your mosque's prayer times (from MasjidNow.com) to your website.
-Version: 0.9.5
+Version: 0.9.6
 Author: Yousuf Jukaku
 Author URI: http://masjidnow.com
 License: GPL2
@@ -33,6 +33,7 @@ class MasjidNow_Widget extends WP_Widget
     $widget_ops = array('classname' => 'MasjidNow_Widget', 'description' => 'MasjidNow Daily Iqamah Timings');
     $this->WP_Widget('MasjidNow_Widget', 'MasjidNow Daily Iqamah Timings', $widget_ops);
     $this->add_stylesheet();
+    $this->add_javascript();
   }
  
   function form($instance)
@@ -180,6 +181,12 @@ class MasjidNow_Widget extends WP_Widget
       // Respects SSL, Style.css is relative to the current file
       wp_register_style( 'masjidnow-style', plugins_url('masjidnow.css', __FILE__) );
       wp_enqueue_style( 'masjidnow-style' );
+  }
+  
+  function add_javascript() {
+      // Respects SSL, Style.css is relative to the current file
+      wp_register_script( 'masjidnow-js', plugins_url('js/WPMasjidNowWidget.js', __FILE__) );
+      wp_enqueue_script('masjidnow-js');
   }
   
   function get_theme_names()

@@ -10,6 +10,26 @@
   font-weight:bold;
 }
 
+.masjidnow-prev-day{
+  width: 0;
+  height:0;
+  border-top:10px solid transparent;
+  border-bottom:10px solid transparent;
+  border-right:10px solid #DDD;
+  float:left;
+  cursor:pointer;
+}
+
+.masjidnow-next-day{
+  width: 0;
+  height:0;
+  border-top:10px solid transparent;
+  border-bottom:10px solid transparent;
+  border-left:10px solid #DDD;
+  float:right;
+  cursor:pointer;
+}
+
 .masjidnow-masjid-name{
   font-weight:bold;
   font-size:11px;
@@ -80,7 +100,14 @@
 }
 
 .masjidnow-theme-blue .masjid-salah-row-alt{
-  background-color:#EEF;
+  background-color:#E0E6E6;
 }
 
+.masjidnow-theme-blue .masjidnow-prev-day{
+  border-right-color:#E0E6E6;
+}
+
+.masjidnow-theme-blue .masjidnow-next-day{
+  border-left-color:#E0E6E6;
+}
 
