@@ -24,13 +24,29 @@ $iqamah_times = array(
   "isha" => "",
 );
 
-$local_calculated = false;
 $iqamah_date_str = "";
 
 $api_iqamah_timings_exist = $response && isset($response->masjid) && isset($response->masjid->salah_timings);
 
 $response_valid = $response != NULL;
-$masjid_exists = $response != NULL;
+$masjid_exists = $response != NULL && isset($response->masjid);
+
+$should_calculate_adhan = true;
+
+//figure out if we should calculate the adhan timings
+if($api_iqamah_timings_exist)
+{
+  for($i =0; $i < count($response->masjid->salah_timings); $i++)
+  {
+    $timing = $response->masjid->salah_timings[$i]->salah_timing;
+    $month = $date_time_now->format("m");
+    $day = $date_time_now->format("d");
+    if($timing->month == $month && $timing->day == $day)
+    {
+      $should_calculate_adhan = false;
+    }
+  }
+}
 
 if($masjid_exists)
 {
@@ -48,9 +64,8 @@ else
   }
 }
 
-if(!$api_iqamah_timings_exist)
+if($should_calculate_adhan)
 {
-  $local_calculated = true;
   
   $now_millis = $date_time_now->getTimestamp();
   //gives timezone offset in seconds, we need to convert to hours
@@ -70,16 +85,13 @@ if(!$api_iqamah_timings_exist)
     "isha" => $calculated_times[6],
   );
 }
-else
+else if(!$should_calculate_adhan && $api_iqamah_timings_exist)
 {
-  $local_calculated = false;
   $masjid = $response->masjid;
-  $masjid_name = $masjid->name;
-  if(isset($masjid->salah_timings))
-  {
-    $salah_timings = $masjid->salah_timings;
-    $salah_timing = $this->get_closest_timing($date_time_now, $salah_timings);
-    $adhan_times = array(
+  $salah_timings = $masjid->salah_timings;
+  $salah_timing = $this->get_closest_timing($date_time_now, $salah_timings); 
+  
+  $adhan_times = array(
       "fajr" => $salah_timing->fajr_adhan,
       "sunrise" => $salah_timing->sunrise_adhan,
       "dhuhr" => $salah_timing->dhuhr_adhan,
@@ -87,7 +99,16 @@ else
       "maghrib" => $salah_timing->maghrib_adhan,
       "isha" => $salah_timing->isha_adhan
     );
-    
+}
+
+
+
+if($api_iqamah_timings_exist)
+{
+  $masjid = $response->masjid;
+  $masjid_name = $masjid->name;
+  if(isset($masjid->salah_timings))
+  {   
     $iqamah_times = array(
       "fajr" => $salah_timing->fajr,
       "dhuhr" => $salah_timing->dhuhr,
@@ -97,7 +118,7 @@ else
     );
     
     $iqamah_date_time = new DateTime($salah_timing->year."-".$salah_timing->month."-".$salah_timing->day);
-    $iqamah_date_str = "Iqamah timings for ".$iqamah_date_time->format("D M j, Y");
+    $iqamah_date_str = $iqamah_date_time->format("D M j, Y");
   }  
 
 }
@@ -105,10 +126,33 @@ else
 
 //$iqamah_date_str = $salah_timings->month."/".$salah_timings->day."/".$salah_timings->year; 
 ?>
+<?php 
+  if(!empty($title))
+  {
+    echo($before_title . $title . $after_title);
+  }
+?>     
 
+<?php
+  if($api_iqamah_timings_exist)
+  {
+  ?>
+      <script type="text/javascript">
+        WPMasjidNowWidget.saveTimings(<?php echo(json_encode($response->masjid)) ?>);
+      </script>
+  <?php
+  }
+?>
+ 
 <div class="masjidnow-container <?php echo($theme);?>">
 
- <div class='masjidnow-masjid-name'><?php echo($masjid_name); ?></div>
+  <div class="masjidnow-prev-day"></div>
+  <div class="masjidnow-next-day"></div>
+
+ <div class='masjidnow-date'>
+  <?php echo($date_time_now->format("D M j, Y"))?>
+ </div>
+
  <table class='masjidnow-salah-timings-table'>
   
   <tr>
@@ -119,42 +163,42 @@ else
     <?php } ?>
   </tr>
    
-  <tr class='masjid-salah-row'>
+  <tr class='masjidnow-salah-row'>
     <td class='masjidnow-salah-name masjidnow-fajr'>Fajr</td>
     <td class='masjidnow-salah-time-adhan masjidnow-fajr'><?php echo($adhan_times["fajr"]); ?></td>
     <?php if($api_iqamah_timings_exist) { ?>
       <td class='masjidnow-salah-time-iqamah masjidnow-fajr'><?php echo($iqamah_times["fajr"]); ?></td>
     <?php } ?>
   </tr>
-  <tr class='masjid-salah-row masjid-salah-row-alt'>
+  <tr class='masjidnow-salah-row masjid-salah-row-alt'>
     <td class='masjidnow-salah-name masjidnow-dhuhr'>Sunrise</td>
     <td class='masjidnow-salah-time-adhan masjidnow-sunrise'><?php echo($adhan_times["sunrise"]); ?></td>
     <?php if($api_iqamah_timings_exist) { ?>
       <td><!-- Empty but necessary --></td>
     <?php } ?>
   </tr>
-  <tr class='masjid-salah-row'>
+  <tr class='masjidnow-salah-row'>
     <td class='masjidnow-salah-name masjidnow-dhuhr'>Dhuhr</td>
     <td class='masjidnow-salah-time-adhan masjidnow-dhuhr'><?php echo($adhan_times["dhuhr"]); ?></td>
     <?php if($api_iqamah_timings_exist) { ?>
       <td class='masjidnow-salah-time-iqamah masjidnow-dhuhr'><?php echo($iqamah_times["dhuhr"]); ?></td>
     <?php } ?>
   </tr>
-  <tr class='masjid-salah-row masjid-salah-row-alt'>
+  <tr class='masjidnow-salah-row masjid-salah-row-alt'>
     <td class='masjidnow-salah-name masjidnow-asr'>Asr</td>
     <td class='masjidnow-salah-time-adhan masjidnow-asr'><?php echo($adhan_times["asr"]); ?></td>
     <?php if($api_iqamah_timings_exist) { ?>
       <td class='masjidnow-salah-time-iqamah masjidnow-asr'><?php echo($iqamah_times["asr"]); ?></td>
     <?php } ?>
   </tr>
-  <tr class='masjid-salah-row'>
+  <tr class='masjidnow-salah-row'>
     <td class='masjidnow-salah-name masjidnow-maghrib'>Maghrib</td>
     <td class='masjidnow-salah-time-adhan masjidnow-maghrib'><?php echo($adhan_times["maghrib"]); ?></td>
     <?php if($api_iqamah_timings_exist) { ?>
       <td class='masjidnow-salah-time-iqamah masjidnow-maghrib'><?php echo($iqamah_times["maghrib"]); ?></td>
     <?php } ?>
   </tr>
-  <tr class='masjid-salah-row masjid-salah-row-alt'>
+  <tr class='masjidnow-salah-row masjid-salah-row-alt'>
     <td class='masjidnow-salah-name masjidnow-isha'>Isha</td>
     <td class='masjidnow-salah-time-adhan masjidnow-isha'><?php echo($adhan_times["isha"]); ?></td>
     <?php if($api_iqamah_timings_exist) { ?>
@@ -163,9 +207,12 @@ else
   </tr>
  </table>
  
- <div class='masjidnow-date'>
-   <?php echo($iqamah_date_str) ?> <br/>
-   Salah timings for <?php echo($date_time_now->format("D M j, Y")) ?>
+ <div class='masjidnow-iqamah-date'>
+   Iqamah timings for <?php echo($iqamah_date_str) ?> <br/>
+ </div>
+ 
+ <div class='masjidnow-masjid-name'>
+  <?php echo($masjid_name); ?>
  </div>
  
 </div>
