@@ -124,7 +124,7 @@ ready = function (f){/in/.test(document.readyState)?setTimeout('ready('+f+')',9)
     if(timing == null)
     {
       
-      document.querySelector(".masjidnow-container .masjidnow-iqamah-date").innerHTML = "No timings available for this date";
+      document.querySelector(".masjidnow-container .masjidnow-iqamah-date").innerHTML = "No iqamah timings available for this date.";
       return;
     }
     else{
@@ -153,10 +153,13 @@ ready = function (f){/in/.test(document.readyState)?setTimeout('ready('+f+')',9)
       var key = keys[i];
       try{
         container.querySelector(".masjidnow-salah-row .masjidnow-salah-time-adhan.masjidnow-"+key).innerHTML = "---";
+      } 
+      catch(e) {
+      }
+      try{
         container.querySelector(".masjidnow-salah-row .masjidnow-salah-time-iqamah.masjidnow-"+key).innerHTML = "---";
       } 
       catch(e) {
-        //console.log("Error setting non-timing for "+key);
       }
     }
   }
@@ -171,10 +174,13 @@ ready = function (f){/in/.test(document.readyState)?setTimeout('ready('+f+')',9)
       var key = keys[i];
       try{
         container.querySelector(".masjidnow-salah-row .masjidnow-salah-time-adhan.masjidnow-"+key).innerHTML = timing[key+"_adhan"];
+      } catch(e)
+      {
+      }
+      try{
         container.querySelector(".masjidnow-salah-row .masjidnow-salah-time-iqamah.masjidnow-"+key).innerHTML = timing[key];
       } catch(e)
       {
-        //console.log("Error setting timing for "+key);
       }
     }
   }

@@ -4,7 +4,7 @@ Donate link:
 Tags: masjidnow, iqamah, salah, islam, masjid, mosque, salat, prayer
 Requires at least: 3.5.1
 Tested up to: 3.5.1
-Stable tag: 0.9.6
+Stable tag: 0.9.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,6 +31,10 @@ This section describes how to install the plugin and get it working.
 Email me through the contact form at masjidnow.com
 
 == Changelog ==
+
+= 0.9.7 =
+* Added ability to only display iqamah timings, instead of both iqamah and adhan timings.
+* Fixed bug where initial iqamah and adhan timings were showing the timings from the last day of the month instead of the correct day's.
 
 = 0.9.6 =
 * Added ability to change date.

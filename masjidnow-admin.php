@@ -1,29 +1,44 @@
 <div class="wrapper">
     
-    <h3>General Settings</h3>
+    <strong>General Settings</strong> <br/><br/>
     
-    <label for="<?php echo $this->get_field_id('title'); ?>"><strong>Title</strong></label><br/>
+    <p>
+    <label for="<?php echo $this->get_field_id('title'); ?>">Title</label><br/>
     <input class="widefat" 
       id="<?php echo $this->get_field_id('title'); ?>"
       name="<?php echo $this->get_field_name('title'); ?>"
       type="text"
       value="<?php echo esc_attr($title); ?>" />
+    </p>
     
-    <label for="<?php echo $this->get_field_id('masjid-id'); ?>"><strong>Masjid ID:</strong></label> <br/>
+    <p>
+    <label for="<?php echo $this->get_field_id('masjid-id'); ?>">Masjid ID:</label> <br/>
     <input class="widefat" 
       id="<?php echo $this->get_field_id('masjid-id'); ?>" 
       name="<?php echo $this->get_field_name('masjid-id'); ?>" 
       type="text" 
       value="<?php echo esc_attr($masjid_id); ?>" />
-      
+    </p>
       
       
     <p>The masjid id can be found by looking at the end of the masjid's URL from masjidnow.com. 
     <br/> For example, Adam Community Center's MasjidNow page has a url of
     <br/><em> http://masjidnow.com/masjids/5299 </em>
     <br/> The masjid id in this case would be 5299.</p>
+    
+    <p>
+    <input 
+      id="<?php echo $this->get_field_id('show-adhan'); ?>" 
+      name="<?php echo $this->get_field_name('show-adhan'); ?>" 
+      type="checkbox"
+      <?php echo($user_show_adhan ? "checked" : ""); ?> 
+    />
+    <label for="<?php echo $this->get_field_id('show-adhan'); ?>">Show Adhan Column</label>
+    
+    </p>
       
-    <label for="<?php echo $this->get_field_id('theme'); ?>"><strong>Theme:</strong></label> <br/>
+    <p>  
+    <label for="<?php echo $this->get_field_id('theme'); ?>">Theme:</label> <br/>
     <select class="widefat" 
       id="<?php echo $this->get_field_id('theme'); ?>" 
       name="<?php echo $this->get_field_name('theme'); ?>" 
@@ -39,16 +54,17 @@
       }
       ?>
     </select>
+    </p>
     
     <hr style="margin-top:20px; margin-bottom:20px;"/>
     
-    <h3>Salah Times Calculations</h3>
+    <strong>Salah Times Calculations</strong>
     <p>
       These settings only take effect if you don't have salah timings uploaded to MasjidNow.com! <br/>
       If you have timings uploaded, you can change your settings from our website.
     </p>
     <p>
-    <label for="<?php echo $this->get_field_id('latitude'); ?>"><strong>Latitude, Longitude</strong></label> <br/>
+    <label for="<?php echo $this->get_field_id('latitude'); ?>">Latitude, Longitude</label> <br/>
     <input class="widefat" style="width:100px" 
       id="<?php echo $this->get_field_id('latitude'); ?>" 
       name="<?php echo $this->get_field_name('latitude'); ?>" 
@@ -65,7 +81,7 @@
     </p>
     
     <p>
-    <label for="<?php echo $this->get_field_id('time-zone-id'); ?>"><strong>Time Zone:</strong></label> <br/>
+    <label for="<?php echo $this->get_field_id('time-zone-id'); ?>">Time Zone:</label> <br/>
     <select class="widefat" 
       id="<?php echo $this->get_field_id('time-zone-id'); ?>" 
       name="<?php echo $this->get_field_name('time-zone-id'); ?>" 
@@ -84,7 +100,7 @@
     </p>
     
     <p>
-    <label for="<?php echo $this->get_field_id('pray-time-calc-method'); ?>"><strong>Calculation Method:</strong></label> <br/>
+    <label for="<?php echo $this->get_field_id('pray-time-calc-method'); ?>">Calculation Method:</label> <br/>
     <select class="widefat" 
       id="<?php echo $this->get_field_id('pray-time-calc-method'); ?>" 
       name="<?php echo $this->get_field_name('pray-time-calc-method'); ?>" 
@@ -102,7 +118,7 @@
     </p>
     
     <p>
-    <label for="<?php echo $this->get_field_id('pray-time-asr-juristic'); ?>"><strong>Calculation Method:</strong></label> <br/>
+    <label for="<?php echo $this->get_field_id('pray-time-asr-juristic'); ?>">Calculation Method:</label> <br/>
     <select class="widefat" 
       id="<?php echo $this->get_field_id('pray-time-asr-juristic'); ?>" 
       name="<?php echo $this->get_field_name('pray-time-asr-juristic'); ?>" 
