@@ -111,3 +111,53 @@
   border-left-color:#E0E6E6;
 }
 
+/**
+ * *************
+ * *******
+ *  MONTHLY TIMINGS
+ * ********
+ * *************
+ * **/
+ 
+.masjidnow-month{
+  font-size:16px;
+  font-weight:bold;
+  text-align:center;
+}
+ 
+.masjidnow-salah-timings{
+  text-align:center;
+}
+ 
+.masjidnow-salah-timings td, .masjidnow-salah-timings th{
+  padding:4px !important;
+  text-align:center;
+}
+ 
+ 
+.masjidnow-salah-timings tr:nth-child(even){
+  background-color:#EEE;
+}
+
+.masjidnow-active{
+  background-color: rgb(255, 222, 139) !important;
+  color:black;
+  font-weight:bold;
+}
+
+ 
+/**
+ * *************
+ * *******
+ *  MONTHLY TIMINGS THEMES
+ * ********
+ * *************
+ * **/
+ 
+.masjidnow-theme-blue .masjidnow-salah-timings tr:nth-child(even){
+  background-color:#E8EDFF;
+}
+
+.masjidnow-theme-blue .masjidnow-active{
+  background-color: #FFD591 !important;
+}

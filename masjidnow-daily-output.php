@@ -24,7 +24,7 @@ else
 $iqamah_date_str = $api_helper->get_iqamah_date("D M j, Y");
 
 $show_iqamah = $this->should_show_iqamah($api_helper);
-$show_adhan = $this->should_show_adhan($api_helper);
+$show_adhan = $this->should_show_adhan($instance);
 
 //$iqamah_date_str = $salah_timings->month."/".$salah_timings->day."/".$salah_timings->year; 
 ?>

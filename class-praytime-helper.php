@@ -6,9 +6,8 @@ require_once("libs/PrayTime.php");
 
 class PrayTimeHelper{
   
-  static function get_pray_time($instance)
+  static function get_pray_time($settings)
   {
-    $settings = PrayTimeHelper::get_pray_time_settings($instance); 
     $pray_time = new \PrayTime($settings["calc_method"]);
     $pray_time->setAsrMethod($settings["asr_juristic"]);
     $pray_time->setHighLatsMethod($settings["high_lats"]);
@@ -16,7 +15,7 @@ class PrayTimeHelper{
     return $pray_time;
   }
   
-  static function get_pray_time_settings($instance)
+  static function get_pray_time_settings_from_widget($instance)
   {
     $pray_time_calc_method = empty($instance['pray-time-calc-method']) ? 2 : $instance['pray-time-calc-method']; 
     $pray_time_asr_juristic = empty($instance['pray-time-asr-juristic']) ? 2 : $instance['pray-time-asr-juristic']; 

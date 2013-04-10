@@ -9,20 +9,22 @@ class APIHelper{
   const PATH_MONTHLY = "monthly.json?";
   const PARAM_MASJID_ID = "masjid_id";
 
-  public $instance;
   private $masjid_id;
   private $response;
   private $date_time_now;
+  private $pray_time_settings;
+  private $location;
 
   private $adhan_timings;
   private $iqamah_timings;
   private $masjid_exists;
 
-  function __construct($instance, $masjid_id, $date_time_now){
-    $this->instance = $instance;
+  function __construct($masjid_id, $date_time_now, $pray_time_settings, $location){
     $this->response = null;
     $this->masjid_id = $masjid_id;
     $this->date_time_now = $date_time_now;
+    $this->pray_time_settings = $pray_time_settings;
+    $this->location = $location;
     $this->masjid_exists = false;
   }
 
@@ -59,6 +61,43 @@ class APIHelper{
     
     return array(
       "adhan_timings" => $adhan_timings,
+      "iqamah_timings" => $iqamah_timings,
+      "raw" => $response
+    );
+  }
+  
+  function get_monthly_timings(){
+    $adhan_timings = null;
+    $iqamah_timings = null;
+    $response = null;
+    
+    if(isset($this->masjid_id))
+    {
+      $response = $this->get_cached_response();
+      if($response == null || !$this->has_today_timing($response))
+      {
+        //cache miss, so make api request
+        $response = $this->download_timings($this->masjid_id);
+      }
+      
+      $this->response = $response;
+      
+      if($response != null)
+      {
+        $this->masjid_exists = true;
+      }
+      
+      if($response != null && isset($response->masjid) && isset($response->masjid->salah_timings))
+      {
+        $iqamah_timings = $response->masjid->salah_timings;
+      }
+      else
+      {
+        $iqamah_timings = null;
+      }
+    }
+    
+    return array(
       "iqamah_timings" => $iqamah_timings,
       "raw" => $response
     );
@@ -204,10 +243,10 @@ class APIHelper{
   
   function calculate_local_timing()
   {
-    $location = PrayTimeHelper::get_location($this->instance);
+    $location = $this->location;
     //gives timezone offset in seconds, we need to convert to hours
     $time_zone = $this->date_time_now->getOffset()/3600;
-    $pray_time = PrayTimeHelper::get_pray_time($this->instance);
+    $pray_time = PrayTimeHelper::get_pray_time($this->pray_time_settings);
     $now_millis = $this->date_time_now->getTimestamp();
     $pray_time->getPrayerTimes($now_millis, $location["latitude"], $location["longitude"], $time_zone);
     $calculated_timings = $pray_time->getPrayerTimes($now_millis, $location["latitude"], $location["longitude"], $time_zone);

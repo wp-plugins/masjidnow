@@ -3,7 +3,7 @@
 Plugin Name: MasjidNow
 Plugin URI: http://wordpress.org/extend/plugins/masjidnow/
 Description: A simple widget for adding your mosque's prayer times (from MasjidNow.com) to your website.
-Version: 0.9.7
+Version: 0.9.8
 Author: Yousuf Jukaku
 Author URI: http://masjidnow.com
 License: GPL2
@@ -13,6 +13,7 @@ require_once("libs/PrayTime.php");
 include("libs/MasjidNowTimeZoneNames.php");
 include("class-praytime-helper.php");
 include("class-api-helper.php");
+include("monthly.php");
 
 
 class MasjidNow_Widget extends WP_Widget
@@ -102,7 +103,8 @@ class MasjidNow_Widget extends WP_Widget
     $date_time_zone = new DateTimeZone($time_zone_id);
     $date_time_now = new DateTime("now", $date_time_zone);
 
-    $api_helper = new MasjidNow\ApiHelper($instance, $masjid_id, $date_time_now);
+    $pray_time_settings = MasjidNow\PrayTimeHelper::get_pray_time_settings_from_widget($instance); 
+    $api_helper = new MasjidNow\ApiHelper($masjid_id, $date_time_now, $pray_time_settings, $location);
     $response = $api_helper->get_timings();
     $adhan_times = $response["adhan_timings"];
     $iqamah_times = $response["iqamah_timings"];
@@ -119,9 +121,8 @@ class MasjidNow_Widget extends WP_Widget
     return $api_helper->does_masjid_exist();
   }
   
-  function should_show_adhan($api_helper)
+  function should_show_adhan($instance)
   {
-    $instance = $api_helper->instance;
     return empty($instance['show-adhan']) ? false : $instance['show-adhan'];
   }
 
@@ -152,4 +153,5 @@ class MasjidNow_Widget extends WP_Widget
 
 add_action( 'widgets_init', create_function('', 'return register_widget("MasjidNow_Widget");') );
 
+add_shortcode("masjidnow_monthly", "MasjidNowMonthly\getOutput");
 ?>

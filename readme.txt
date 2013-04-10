@@ -4,16 +4,18 @@ Donate link:
 Tags: masjidnow, iqamah, salah, islam, masjid, mosque, salat, prayer
 Requires at least: 3.5.1
 Tested up to: 3.5.1
-Stable tag: 0.9.7
+Stable tag: 0.9.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Provides a widget for displaying daily iqamah timings from MasjidNow.com for any mosque that has uploaded it's timings there, as well as calculated prayer times for an area.
+Provides the ability to display daily and monthly adhan and iqamah timings from MasjidNow.com. Local adhan times calculation available if necessary.
 
 == Description ==
 
 Provides a widget for displaying daily iqamah timings from MasjidNow.com for any mosque that has uploaded it's timings there.
-The timings are displayed along-side calculated timings which can be adjusted from the plugin's settings.
+The timings are displayed along-side adhan timings which can be adjusted from the plugin's settings if necessary.
+
+Also provides a shortcode for displaying the monthly iqamah timings table.
 
 == Installation ==
 
@@ -21,8 +23,16 @@ This section describes how to install the plugin and get it working.
 
 1. Upload the `masjidnow` folder to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
-3. Place the `MasjidNow Daily Iqamah Timings` widget in the correct area through the `Appearance` > `Widgets` menu in WordPress.
-4. Change the widget's settings to your preference, then press save.
+
+To use the daily timings sidebar widget:
+
+1. Place the `MasjidNow Daily Iqamah Timings` widget in the correct area through the `Appearance` > `Widgets` menu in WordPress.
+2. Change the widget's settings to your preference, then press save.
+
+To show the monthly timings table anywhere on your site:
+
+1. Place the shortcode [masjidnow_monthly masjid_id=XXXX], replacing XXXX with your mosque's MasjidNow.com id. This can be found at the end of the MasjidNow.com url for your mosque.
+For example, http://masjidnow.com/masjids/5312 has a masjid_id of 5312. Simple!
 
 == Frequently Asked Questions ==
 
@@ -31,6 +41,9 @@ This section describes how to install the plugin and get it working.
 Email me through the contact form at masjidnow.com
 
 == Changelog ==
+
+= 0.9.8 =
+* Added ability to display monthly timings table.
 
 = 0.9.7 =
 * Added ability to only display iqamah timings, instead of both iqamah and adhan timings.
