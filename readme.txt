@@ -4,7 +4,7 @@ Donate link:
 Tags: masjidnow, iqamah, salah, islam, masjid, mosque, salat, prayer
 Requires at least: 3.5.1
 Tested up to: 3.5.1
-Stable tag: 0.9.8
+Stable tag: 0.9.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -41,6 +41,9 @@ For example, http://masjidnow.com/masjids/5312 has a masjid_id of 5312. Simple!
 Email me through the contact form at masjidnow.com
 
 == Changelog ==
+
+= 0.9.9 =
+* Fixed bug where iqamah timings date would show "No timings available" regardless of availability.
 
 = 0.9.8 =
 * Added ability to display monthly timings table.

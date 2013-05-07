@@ -21,7 +21,7 @@ else
   }
 }
 
-$iqamah_date_str = $api_helper->get_iqamah_date("D M j, Y");
+$iqamah_date_str = "Iqamah timings for ".$api_helper->get_iqamah_date("D M j, Y");
 
 $show_iqamah = $this->should_show_iqamah($api_helper);
 $show_adhan = $this->should_show_adhan($instance);
