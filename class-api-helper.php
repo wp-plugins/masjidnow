@@ -26,6 +26,8 @@ class APIHelper{
     $this->pray_time_settings = $pray_time_settings;
     $this->location = $location;
     $this->masjid_exists = false;
+    $this->iqamah_timings = null;
+    $this->adhan_timings = null;
   }
 
   function get_timings()
@@ -58,6 +60,10 @@ class APIHelper{
       //force calculated timings
       $adhan_timings = $this->get_adhan_timing(null);
     }
+    
+    $this->iqamah_timings = $iqamah_timings;
+    $this->adhan_timings = $adhan_timings;
+    
     
     return array(
       "adhan_timings" => $adhan_timings,
@@ -162,12 +168,13 @@ class APIHelper{
   
   function get_iqamah_date($format)
   {
-    if($this->iqamah_timings)
+    if(isset($this->iqamah_timings))
     {
+      $iqamah_timings = $this->iqamah_timings;
       $day = $iqamah_timings["day"];
-      $month = $iqamah_timings["month"];
+      $month = $iqamah_timings["month"] + 1;
       $year = $iqamah_timings["year"];
-      $iqamah_date_time = new DateTime("$year-$month-$day");
+      $iqamah_date_time = new \DateTime("$year-$month-$day");
       return $iqamah_date_time->format($format);
     }
     else
