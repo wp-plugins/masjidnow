@@ -3,7 +3,7 @@
 Plugin Name: MasjidNow
 Plugin URI: http://wordpress.org/extend/plugins/masjidnow/
 Description: A simple widget for adding your mosque's prayer times (from MasjidNow.com) to your website.
-Version: 0.9.10
+Version: 0.9.11
 Author: Yousuf Jukaku
 Author URI: http://masjidnow.com
 License: GPL2

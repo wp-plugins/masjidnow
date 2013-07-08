@@ -69,6 +69,9 @@ ready = function (f){/in/.test(document.readyState)?setTimeout('ready('+f+')',9)
       var month = date.getMonth();
       var day = date.getDate();
       var timing = WPMasjidNowWidget.timings[month][day];
+      if(!timing)
+        return null;
+      /*
       var attempts = 0;
       while(!timing)
       {
@@ -81,6 +84,7 @@ ready = function (f){/in/.test(document.readyState)?setTimeout('ready('+f+')',9)
           return null;
         }
       }
+      */
       return timing;
       
     }catch(e){

@@ -4,7 +4,7 @@ Donate link:
 Tags: masjidnow, iqamah, salah, islam, masjid, mosque, salat, prayer
 Requires at least: 3.5.1
 Tested up to: 3.5.1
-Stable tag: 0.9.10
+Stable tag: 0.9.11
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -41,6 +41,9 @@ For example, http://masjidnow.com/masjids/5312 has a masjid_id of 5312. Simple!
 Email me through the contact form at masjidnow.com
 
 == Changelog ==
+
+= 0.9.11 =
+* Fixed bug where widget couldn't go in the past if a month was incomplete.
 
 = 0.9.10 =
 * Included updated file from fix in 0.9.9
