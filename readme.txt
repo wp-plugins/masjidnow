@@ -4,7 +4,7 @@ Donate link:
 Tags: masjidnow, iqamah, salah, islam, masjid, mosque, salat, prayer
 Requires at least: 3.5.1
 Tested up to: 3.5.1
-Stable tag: 0.9.11
+Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -41,6 +41,11 @@ For example, http://masjidnow.com/masjids/5312 has a masjid_id of 5312. Simple!
 Email me through the contact form at masjidnow.com
 
 == Changelog ==
+
+= 1.0.0 =
+* Added mobile app download links.
+* Changed iqamah timings date to only show if timings were old.
+* Added support for PHP 5 (previous support was PHP 5.3)
 
 = 0.9.11 =
 * Fixed bug where widget couldn't go in the past if a month was incomplete.

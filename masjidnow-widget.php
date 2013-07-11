@@ -3,7 +3,7 @@
 Plugin Name: MasjidNow
 Plugin URI: http://wordpress.org/extend/plugins/masjidnow/
 Description: A simple widget for adding your mosque's prayer times (from MasjidNow.com) to your website.
-Version: 0.9.11
+Version: 1.0.0
 Author: Yousuf Jukaku
 Author URI: http://masjidnow.com
 License: GPL2
@@ -91,7 +91,7 @@ class MasjidNow_Widget extends WP_Widget
     $theme = empty($instance['theme']) ? 'default' : $instance['theme'];    
     $theme = self::THEME_PREFIX.$theme;
        
-    $location = MasjidNow\PrayTimeHelper::get_location($instance);
+    $location = MasjidNow_PrayTimeHelper::get_location($instance);
     
     // Do Your Widgety Stuff Here...
 
@@ -103,8 +103,8 @@ class MasjidNow_Widget extends WP_Widget
     $date_time_zone = new DateTimeZone($time_zone_id);
     $date_time_now = new DateTime("now", $date_time_zone);
 
-    $pray_time_settings = MasjidNow\PrayTimeHelper::get_pray_time_settings_from_widget($instance); 
-    $api_helper = new MasjidNow\ApiHelper($masjid_id, $date_time_now, $pray_time_settings, $location);
+    $pray_time_settings = MasjidNow_PrayTimeHelper::get_pray_time_settings_from_widget($instance); 
+    $api_helper = new MasjidNow_ApiHelper($masjid_id, $date_time_now, $pray_time_settings, $location);
     $response = $api_helper->get_timings();
     $adhan_times = $response["adhan_timings"];
     $iqamah_times = $response["iqamah_timings"];
@@ -126,6 +126,17 @@ class MasjidNow_Widget extends WP_Widget
     return empty($instance['show-adhan']) ? false : $instance['show-adhan'];
   }
 
+  function get_salah_row_start_tag($count)
+  {
+    if($count % 2 != 0)
+    {
+      return "<tr class='masjidnow-salah-row masjid-salah-row-alt'>";
+    }
+    else
+    {
+      return "<tr class='masjidnow-salah-row'>";
+    }
+  }
   
   function add_stylesheet() {
       // Respects SSL, Style.css is relative to the current file
@@ -153,5 +164,5 @@ class MasjidNow_Widget extends WP_Widget
 
 add_action( 'widgets_init', create_function('', 'return register_widget("MasjidNow_Widget");') );
 
-add_shortcode("masjidnow_monthly", "MasjidNowMonthly\getOutput");
+add_shortcode("masjidnow_monthly", "MasjidNowMonthly_getOutput");
 ?>

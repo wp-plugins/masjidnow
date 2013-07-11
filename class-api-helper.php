@@ -1,8 +1,6 @@
 <?php
 
-namespace MasjidNow;
-
-class APIHelper{
+class MasjidNow_APIHelper{
 
   const BASE_URL = "http://www.masjidnow.com/api/v2/salah_timings/";
   const PATH_DAILY = "daily.json?";
@@ -166,7 +164,7 @@ class APIHelper{
     return $iqamah_timings;
   }
   
-  function get_iqamah_date($format)
+  function get_iqamah_date()
   {
     if(isset($this->iqamah_timings))
     {
@@ -174,13 +172,23 @@ class APIHelper{
       $day = $iqamah_timings["day"];
       $month = $iqamah_timings["month"] + 1;
       $year = $iqamah_timings["year"];
-      $iqamah_date_time = new \DateTime("$year-$month-$day");
-      return $iqamah_date_time->format($format);
+      $iqamah_date_time = new DateTime("$year-$month-$day");
+      return $iqamah_date_time;
     }
     else
     {
-      return "No iqamah timings available for this date.";
+      return null;
     }
+  }
+  
+  function get_iqamah_date_str($format)
+  {
+    $date = $this->get_iqamah_date();
+    if($date)
+    {
+        return $date->format($format);
+    }
+    return "No iqamah timings available for this date.";
   }
     
   function get_closest_timing($date_time, $salah_timings)
@@ -253,7 +261,7 @@ class APIHelper{
     $location = $this->location;
     //gives timezone offset in seconds, we need to convert to hours
     $time_zone = $this->date_time_now->getOffset()/3600;
-    $pray_time = PrayTimeHelper::get_pray_time($this->pray_time_settings);
+    $pray_time = MasjidNow_PrayTimeHelper::get_pray_time($this->pray_time_settings);
     $now_millis = $this->date_time_now->getTimestamp();
     $pray_time->getPrayerTimes($now_millis, $location["latitude"], $location["longitude"], $time_zone);
     $calculated_timings = $pray_time->getPrayerTimes($now_millis, $location["latitude"], $location["longitude"], $time_zone);

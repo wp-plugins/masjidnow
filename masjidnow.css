@@ -77,6 +77,30 @@
   font-weight:bold;
 }
 
+.masjidnow-daily-footer{
+  border-top:1px solid #EEE;
+  padding:2px;
+  padding-left:10px;
+  padding-right:10px;
+  font-size:10px;
+  line-height:30px;
+  text-align:right;
+  color:#CCC;
+}
+
+.masjidnow-daily-footer .masjidnow-icon{
+  float:right;
+  margin-left:10px;
+}
+
+.masjidnow-daily-footer img{
+  border:none !important;
+  background:none !important;
+  box-shadow:none !important;
+  height:25px;
+}
+
+
 /**
  * *************
  * *******
@@ -160,4 +184,5 @@
 
 .masjidnow-theme-blue .masjidnow-active{
   background-color: #FFD591 !important;
+  font-weight:bold;
 }

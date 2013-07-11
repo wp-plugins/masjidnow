@@ -1,18 +1,16 @@
 <?php
 
-namespace MasjidNowMonthly;
-
-function getOutput($attrs)
+function MasjidNowMonthly_getOutput($attrs)
 {
   extract( shortcode_atts( array(
-		'masjid_id' => null,
-	), $attrs ) );
+    'masjid_id' => null,
+  ), $attrs ) );
   
-  $date_time_now = new \DateTime("now", new \DateTimeZone(get_option('timezone_string')));
+  $date_time_now = new DateTime("now", new DateTimeZone(get_option('timezone_string')));
   
   if(!empty($masjid_id))
   {
-    $timings = get_timings($masjid_id, $date_time_now, null, null);
+    $timings = MasjidNowMonthly_get_timings($masjid_id, $date_time_now, null, null);
     ob_start();
     include("monthly-output.php");
     $output_string = ob_get_contents();
@@ -26,9 +24,9 @@ function getOutput($attrs)
   
 }
 
-function get_timings($masjid_id, $date_time_now)
+function MasjidNowMonthly_get_timings($masjid_id, $date_time_now)
 {
-  $api_helper = new \MasjidNow\APIHelper($masjid_id, $date_time_now, null, null);
+  $api_helper = new MasjidNow_APIHelper($masjid_id, $date_time_now, null, null);
   $timings = $api_helper->get_monthly_timings();
   return $timings["iqamah_timings"];
 }
