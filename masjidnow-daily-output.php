@@ -153,12 +153,14 @@ if($iqamah_date_time)
  </div>
  
  <div class='masjidnow-daily-footer'>
-   Get these timings on: 
-  <div class='masjidnow-icon'>
-    <a href='http://masjidnow.com/masjids/<?php echo($masjid_id)?>#mobile_instructions'><img src='<?php echo(plugins_url( "img\ic_android.png", __FILE__ )); ?>' height=30></a>
-  </div>
-  <div class='masjidnow-icon'>
-    <a href='http://masjidnow.com/masjids/<?php echo($masjid_id)?>#mobile_instructions'><img src='<?php echo(plugins_url( "img\ic_ios.png", __FILE__ )); ?>' height=30></a>
+  <span class='masjidnow-alt-instructions'>Get these timings on:</span>
+  <div class='masjidnow-alt-icons'>
+    <div class='masjidnow-alt-icon'>
+      <a href='http://masjidnow.com/masjids/<?php echo($masjid_id)?>#mobile_instructions'><img src='<?php echo(plugins_url( "img\ic_android.png", __FILE__ )); ?>' height=30></a>
+    </div>
+    <div class='masjidnow-alt-icon'>
+      <a href='http://masjidnow.com/masjids/<?php echo($masjid_id)?>#mobile_instructions'><img src='<?php echo(plugins_url( "img\ic_ios.png", __FILE__ )); ?>' height=30></a>
+    </div>
   </div>
  </div>
 

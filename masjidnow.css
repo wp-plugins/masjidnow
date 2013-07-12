@@ -88,12 +88,20 @@
   color:#CCC;
 }
 
-.masjidnow-daily-footer .masjidnow-icon{
-  float:right;
+.masjidnow-daily-footer .masjidnow-alt-instructions{
+  
+}
+
+.masjidnow-daily-footer .masjidnow-alt-icons{
+  display:inline-block;
+}
+
+.masjidnow-daily-footer .masjidnow-alt-icon{
+  display:inline-block;
   margin-left:10px;
 }
 
-.masjidnow-daily-footer img{
+.masjidnow-daily-footer .masjidnow-alt-icons img{
   border:none !important;
   background:none !important;
   box-shadow:none !important;
