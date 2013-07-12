@@ -120,15 +120,24 @@ class MasjidNow_APIHelper{
   function download_timings($masjid_id)
   {
     $url = $this->get_monthly_timings_url($masjid_id);
-    $response = @file_get_contents($url);
-    if($response !== false)
-    {
-      $response = json_decode($response);
+    $args = array(
+      'method'      =>    'GET',
+      'timeout'     =>    5,
+      'redirection' =>    5,
+      'httpversion' =>    '1.0',
+      'blocking'    =>    true,
+      'headers'     =>    array(),
+      'body'        =>    null,
+      'cookies'     =>    array()
+    );
+    $response = wp_remote_get( $url, $args );
+    if( is_wp_error( $response ) || $response["body"] == "") {
+       $error_message = $response->get_error_message();
+       echo "<!-- MasjidNow Widget: Something went wrong: $error_message -->";
+       return null;
+    } else {
+      $response = json_decode($response["body"]);
       return $response;
-    }
-    else
-    {
-      return null;
     }
   }
   
