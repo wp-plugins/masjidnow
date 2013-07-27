@@ -151,7 +151,7 @@ if($iqamah_date_time)
    <div class='masjidnow-iqamah-date'>
      <?php if($is_timings_old) { ?>
       <?php echo($iqamah_date_str) ?> <br/>
-     <? } ?>
+     <?php } ?>
    </div>
  <?php } ?>
  
