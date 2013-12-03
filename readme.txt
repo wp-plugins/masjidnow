@@ -3,8 +3,8 @@ Contributors: yaj786
 Donate link: 
 Tags: masjidnow, iqamah, salah, islam, masjid, mosque, salat, prayer
 Requires at least: 3.5.1
-Tested up to: 3.5.1
-Stable tag: 1.0.2
+Tested up to: 3.5.2
+Stable tag: 1.0.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -41,6 +41,18 @@ For example, http://masjidnow.com/masjids/5312 has a masjid_id of 5312. Simple!
 Email me through the contact form at masjidnow.com
 
 == Changelog ==
+
+= 1.0.6 =
+* Fixed bug in monthly timings where the month displayed was always "March 2013"
+
+= 1.0.5 =
+* Timings are now available if user clicks to a new month
+
+= 1.0.4 =
+* Fixed bug where widget wouldn't display on some servers (used <? on one line vs <?php)
+
+= 1.0.3 =
+* Removed additional dependencies on PHP 5.3+ by removing reference to DateTime::diff 
 
 = 1.0.2 =
 * Changed style of widget to properly accomodate small sidebars.

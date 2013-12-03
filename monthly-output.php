@@ -1,10 +1,10 @@
 <div class='masjidnow-monthly-container'>
 
-  <div class='masjidnow-month'>March 2013</div>
+  <div class='masjidnow-month'><?php echo($date_time_now->format("F Y")) ?></div>
 
   <table class='masjidnow-salah-timings'>
     <tr>
-      <th>Mar/Day</th>
+      <th><?php echo($date_time_now->format("M")) ?>/Day</th>
       <th>Fajr</th>
       <th>Dhuhr</th>
       <th>Asr</th>
