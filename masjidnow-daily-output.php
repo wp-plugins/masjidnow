@@ -31,10 +31,17 @@ $is_timings_old = false;
 $iqamah_date_time = $api_helper->get_iqamah_date();
 if($iqamah_date_time)
 {
-  $diff = $iqamah_date_time->diff(new DateTime());
-  if ($diff->format('%a') > '0') {
+  $today_date_time = new DateTime();
+  $ms_diff = $today_date_time->format('U') - $iqamah_date_time->format('U');
+  $days_diff = $ms_diff / (60*60*24);
+  if ($days_diff >= 1) {
       $is_timings_old = true;
   } 
+  // ********* THIS WAY REQUIRES PHP 5.3+ ****************
+  //$diff = $iqamah_date_time->diff(new DateTime());
+  //if ($diff->format('%a') > '0') {
+  //    $is_timings_old = true;
+  //} 
 }
 
 //$iqamah_date_str = $salah_timings->month."/".$salah_timings->day."/".$salah_timings->year; 
@@ -144,7 +151,7 @@ if($iqamah_date_time)
    <div class='masjidnow-iqamah-date'>
      <?php if($is_timings_old) { ?>
       <?php echo($iqamah_date_str) ?> <br/>
-     <? } ?>
+     <?php } ?>
    </div>
  <?php } ?>
  

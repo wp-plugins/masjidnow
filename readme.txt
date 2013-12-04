@@ -3,8 +3,8 @@ Contributors: yaj786
 Donate link: 
 Tags: masjidnow, iqamah, salah, islam, masjid, mosque, salat, prayer
 Requires at least: 3.5.1
-Tested up to: 3.5.1
-Stable tag: 1.0.2
+Tested up to: 3.5.2
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -34,6 +34,8 @@ To show the monthly timings table anywhere on your site:
 1. Place the shortcode [masjidnow_monthly masjid_id=XXXX], replacing XXXX with your mosque's MasjidNow.com id. This can be found at the end of the MasjidNow.com url for your mosque.
 For example, http://masjidnow.com/masjids/5312 has a masjid_id of 5312. Simple!
 
+To show the adhan timings schedule instead of the iqamah timings schedule, simply change the short code to [masjidnow_monthly_adhan masjid_id=XXXX].
+
 == Frequently Asked Questions ==
 
 = I have a question, what should I do? =
@@ -41,6 +43,21 @@ For example, http://masjidnow.com/masjids/5312 has a masjid_id of 5312. Simple!
 Email me through the contact form at masjidnow.com
 
 == Changelog ==
+
+= 1.1.0 =
+* Added monthly adhan timings shortcode. Just use [masjidnow_monthly_adhan masjid_id=XXXX] to display the adhan timings for your mosque.
+
+= 1.0.6 =
+* Fixed bug in monthly timings where the month displayed was always "March 2013"
+
+= 1.0.5 =
+* Timings are now available if user clicks to a new month
+
+= 1.0.4 =
+* Fixed bug where widget wouldn't display on some servers (used <? on one line vs <?php)
+
+= 1.0.3 =
+* Removed additional dependencies on PHP 5.3+ by removing reference to DateTime::diff 
 
 = 1.0.2 =
 * Changed style of widget to properly accomodate small sidebars.
@@ -81,7 +98,7 @@ Email me through the contact form at masjidnow.com
 * Added ability to set the header.
 
 = 0.9.3 =
-* Upgraded to using masjidnow.com API V2. Adhan timings are now gotten from the MasjidNow server instead of through calculations, unless necessary.
+* Upgraded to using masjidnow.com API V2. Adhan timings are now retrieved from the MasjidNow server instead of through calculations, unless necessary.
 * Widget can be used without having a masjid connected to it. (Will get around to fixing how it looks when there is no masjid connected.)
 
 = 0.9.2 =
