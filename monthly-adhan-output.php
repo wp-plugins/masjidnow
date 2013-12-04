@@ -1,11 +1,12 @@
 <div class='masjidnow-monthly-container'>
 
-  <div class='masjidnow-month'><?php echo($date_time_now->format("F Y")) ?></div>
+  <div class='masjidnow-month'><?php echo($date_time_now->format("F Y")) ?> | Adhan Timings</div>
 
-  <table class='masjidnow-salah-timings'>
+  <table class='masjidnow-adhan-timings'>
     <tr>
       <th><?php echo($date_time_now->format("M")) ?>/Day</th>
       <th>Fajr</th>
+      <th>Sunrise</th>
       <th>Dhuhr</th>
       <th>Asr</th>
       <th>Maghrib</th>
@@ -25,11 +26,12 @@
     ?>
       <tr class="<?php echo($classes) ?>">
         <td><?php echo($date_out); ?></td>
-        <td><?php echo($timing->fajr); ?></td>
-        <td><?php echo($timing->dhuhr); ?></td>
-        <td><?php echo($timing->asr); ?></td>
-        <td><?php echo($timing->maghrib); ?></td>
-        <td><?php echo($timing->isha); ?></td>
+        <td><?php echo($timing->fajr_adhan); ?></td>
+        <td><?php echo($timing->sunrise_adhan); ?></td>
+        <td><?php echo($timing->dhuhr_adhan); ?></td>
+        <td><?php echo($timing->asr_adhan); ?></td>
+        <td><?php echo($timing->maghrib_adhan); ?></td>
+        <td><?php echo($timing->isha_adhan); ?></td>
       </tr>
     <?php } ?>
     

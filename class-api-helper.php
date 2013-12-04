@@ -102,7 +102,7 @@ class MasjidNow_APIHelper{
     }
     
     return array(
-      "iqamah_timings" => $iqamah_timings,
+      "salah_timings" => $iqamah_timings,
       "raw" => $response
     );
   }
