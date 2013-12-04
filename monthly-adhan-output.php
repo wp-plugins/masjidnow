@@ -6,6 +6,7 @@
     <tr>
       <th><?php echo($date_time->format("M")) ?>/Day</th>
       <th>Fajr</th>
+      <th>Sunrise</th>
       <th>Dhuhr</th>
       <th>Asr</th>
       <th>Maghrib</th>
