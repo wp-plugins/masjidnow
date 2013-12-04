@@ -1,57 +1,57 @@
 <?php
 
-function MasjidNowMonthly_getIqamahOutput($attrs)
+function MasjidNowMonthly_getOutput($attrs, $iqamah)
 {
   extract( shortcode_atts( array(
     'masjid_id' => null,
+    'month' => null
   ), $attrs ) );
+ 
+  $shortcode = $iqamah ? "masjidnow_monthly" : "masjidnow_monthly_adhan";
+  $outputTemplateFile = $iqamah ? "monthly-iqamah-output.php" : "monthly-adhan-output.php"; 
   
+  // need to do two seperate initializers because 
+  // setting one to the other will make them reference the same object
   $date_time_now = new DateTime("now", new DateTimeZone(get_option('timezone_string')));
+  $date_time = new DateTime("now", new DateTimeZone(get_option('timezone_string')));
+  
+  if(isset($month))
+  {
+    if($month != $date_time_now->format("m"))
+    {
+      $date_time->setDate($date_time_now->format("Y"), $month , 1);
+    }
+  }
   
   if(!empty($masjid_id))
   {
-    $timings = MasjidNowMonthly_get_timings($masjid_id, $date_time_now, null, null);
+    $timings = MasjidNowMonthly_get_timings($masjid_id, $date_time, null, null);
     ob_start();
-    include("monthly-iqamah-output.php");
+    include($outputTemplateFile);
     $output_string = ob_get_contents();
     ob_end_clean();
     return $output_string;
   }
   else
   {
-    return "ERROR! Please set the masjid_id by adding it to the end of the shortcode. (ie. [masjidnow_monthly masjid_id=1234])";
+    return "ERROR! Please set the masjid_id by adding it to the end of the shortcode. (ie. [$shortcode masjid_id=1234])";
   }
-  
+}
+
+function MasjidNowMonthly_getIqamahOutput($attrs)
+{
+  return MasjidNowMonthly_getOutput($attrs, true);  
 }
 
 function MasjidNowMonthly_getAdhanOutput($attrs)
 {
-  extract( shortcode_atts( array(
-    'masjid_id' => null,
-  ), $attrs ) );
-  
-  $date_time_now = new DateTime("now", new DateTimeZone(get_option('timezone_string')));
-  
-  if(!empty($masjid_id))
-  {
-    $timings = MasjidNowMonthly_get_timings($masjid_id, $date_time_now, null, null);
-    ob_start();
-    include("monthly-adhan-output.php");
-    $output_string = ob_get_contents();
-    ob_end_clean();
-    return $output_string;
-  }
-  else
-  {
-    return "ERROR! Please set the masjid_id by adding it to the end of the shortcode. (ie. [masjidnow_monthly_adhan masjid_id=1234])";
-  }
-  
+  return MasjidNowMonthly_getOutput($attrs, false);
 }
 
-function MasjidNowMonthly_get_timings($masjid_id, $date_time_now)
+function MasjidNowMonthly_get_timings($masjid_id, $date_time)
 {
-  $api_helper = new MasjidNow_APIHelper($masjid_id, $date_time_now, null, null);
-  $timings = $api_helper->get_monthly_timings();
+  $api_helper = new MasjidNow_APIHelper($masjid_id, $date_time, null, null);
+  $timings = $api_helper->get_monthly_timings($date_time->format("m"));
   return $timings["salah_timings"];
 }
 

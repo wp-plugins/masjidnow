@@ -4,7 +4,7 @@ Donate link:
 Tags: masjidnow, iqamah, salah, islam, masjid, mosque, salat, prayer
 Requires at least: 3.5.1
 Tested up to: 3.5.2
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -43,6 +43,9 @@ To show the adhan timings schedule instead of the iqamah timings schedule, simpl
 Email me through the contact form at masjidnow.com
 
 == Changelog ==
+
+= 1.1.1 =
+* Added ability to show different months with shortcodes. Add month=XX to the shortcode to have the timings for that month display. For example, [masjidnow_monthly masjid_id=XXXX month=12] for December timings.
 
 = 1.1.0 =
 * Added monthly adhan timings shortcode. Just use [masjidnow_monthly_adhan masjid_id=XXXX] to display the adhan timings for your mosque.
