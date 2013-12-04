@@ -6,6 +6,7 @@ class MasjidNow_APIHelper{
   const PATH_DAILY = "daily.json?";
   const PATH_MONTHLY = "monthly.json?";
   const PARAM_MASJID_ID = "masjid_id";
+  const PARAM_MONTH = "month";
 
   private $masjid_id;
   private $response;
@@ -33,6 +34,7 @@ class MasjidNow_APIHelper{
     $adhan_timings = null;
     $iqamah_timings = null;
     $response = null;
+    $date_time_now = new DateTime("now", new DateTimeZone(get_option('timezone_string')));
     
     if(isset($this->masjid_id))
     {
@@ -40,7 +42,7 @@ class MasjidNow_APIHelper{
       if($response == null || !$this->has_today_timing($response))
       {
         //cache miss, so make api request
-        $response = $this->download_timings($this->masjid_id);
+        $response = $this->download_timings($this->masjid_id, $date_time_now->format("m"));
       }
       
       $this->response = $response;
@@ -70,7 +72,7 @@ class MasjidNow_APIHelper{
     );
   }
   
-  function get_monthly_timings(){
+  function get_monthly_timings($month){
     $adhan_timings = null;
     $iqamah_timings = null;
     $response = null;
@@ -81,7 +83,7 @@ class MasjidNow_APIHelper{
       if($response == null || !$this->has_today_timing($response))
       {
         //cache miss, so make api request
-        $response = $this->download_timings($this->masjid_id);
+        $response = $this->download_timings($this->masjid_id, $month);
       }
       
       $this->response = $response;
@@ -102,7 +104,7 @@ class MasjidNow_APIHelper{
     }
     
     return array(
-      "iqamah_timings" => $iqamah_timings,
+      "salah_timings" => $iqamah_timings,
       "raw" => $response
     );
   }
@@ -117,9 +119,9 @@ class MasjidNow_APIHelper{
     return null;
   }
 
-  function download_timings($masjid_id)
+  function download_timings($masjid_id, $month)
   {
-    $url = $this->get_monthly_timings_url($masjid_id);
+    $url = $this->get_monthly_timings_url($masjid_id, $month);
     $args = array(
       'method'      =>    'GET',
       'timeout'     =>    5,
@@ -219,9 +221,10 @@ class MasjidNow_APIHelper{
     return $timing;
   }
   
-  function get_monthly_timings_url($masjid_id)
+  function get_monthly_timings_url($masjid_id, $month)
   {
-    return self::BASE_URL.self::PATH_MONTHLY.self::PARAM_MASJID_ID."=".$masjid_id;
+    $url = self::BASE_URL.self::PATH_MONTHLY.self::PARAM_MASJID_ID."=".$masjid_id."&".self::PARAM_MONTH."=".$month;
+    return $url;
   }
   
   function get_daily_timings_url($masjid_id)
