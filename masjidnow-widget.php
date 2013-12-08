@@ -2,8 +2,8 @@
 /*
 Plugin Name: MasjidNow
 Plugin URI: http://wordpress.org/extend/plugins/masjidnow/
-Description: A simple widget for adding your mosque's prayer times (from MasjidNow.com) to your website.
-Version: 1.1.2
+Description: A simple widget for adding your mosque's prayer times (from MasjidNow.com) to your website. Also has a monthly short code for displaying a whole month's timings. REMEMBER TO CLEAR THE CACHE after updating the timings on MasjidNow.com
+Version: 1.2.0
 Author: Yousuf Jukaku
 Author URI: http://masjidnow.com
 License: GPL2
@@ -162,8 +162,30 @@ class MasjidNow_Widget extends WP_Widget
   
 }
 
+function MasjidNow_plugin_options_page()
+{
+  include("masjidnow-plugin-options.php");
+}
+
 add_action( 'widgets_init', create_function('', 'return register_widget("MasjidNow_Widget");') );
 
 add_shortcode("masjidnow_monthly", "MasjidNowMonthly_getIqamahOutput");
 add_shortcode("masjidnow_monthly_adhan", "MasjidNowMonthly_getAdhanOutput");
+
+// Add Clear Cache link on plugin page
+function your_plugin_settings_link($links) { 
+  $settings_link = '<a href="options-general.php?page=masjidnow">Clear Cache!</a>'; 
+  array_unshift($links, $settings_link); 
+  return $links; 
+}
+ 
+$plugin = plugin_basename(__FILE__); 
+add_filter("plugin_action_links_$plugin", 'your_plugin_settings_link' );
+
+//Add Settings page
+add_action('admin_menu', 'plugin_admin_add_page');
+function plugin_admin_add_page() {
+  add_options_page('MasjidNow Settings', 'MasjidNow Settings', 'manage_options', 'masjidnow', 'MasjidNow_plugin_options_page');
+}
+
 ?>

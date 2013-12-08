@@ -17,7 +17,8 @@ function MasjidNowMonthly_getOutput($attrs, $iqamah)
   
   if(isset($month))
   {
-    if($month != $date_time_now->format("m"))
+    $month = intval($month);
+    if($month != $date_time_now->format("n"))
     {
       $date_time->setDate($date_time_now->format("Y"), $month , 1);
     }
@@ -51,7 +52,7 @@ function MasjidNowMonthly_getAdhanOutput($attrs)
 function MasjidNowMonthly_get_timings($masjid_id, $date_time)
 {
   $api_helper = new MasjidNow_APIHelper($masjid_id, $date_time, null, null);
-  $timings = $api_helper->get_monthly_timings($date_time->format("m"));
+  $timings = $api_helper->get_monthly_timings($date_time->format("n"));
   return $timings["salah_timings"];
 }
 

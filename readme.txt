@@ -4,7 +4,7 @@ Donate link:
 Tags: masjidnow, iqamah, salah, islam, masjid, mosque, salat, prayer
 Requires at least: 3.5.1
 Tested up to: 3.5.2
-Stable tag: 1.1.2
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -16,6 +16,9 @@ Provides a widget for displaying daily iqamah timings from MasjidNow.com for any
 The timings are displayed along-side adhan timings which can be adjusted from the plugin's settings if necessary.
 
 Also provides a shortcode for displaying the monthly iqamah timings table.
+
+ATTENTION: You must clear the cache after updating the masjid's salah timings. This is necessary evil that will speed up the plugin by almost 1000x. You
+can do this by going the MasjidNow Settings page and clicking "Clear Cache".
 
 == Installation ==
 
@@ -43,6 +46,9 @@ To show the adhan timings schedule instead of the iqamah timings schedule, simpl
 Email me through the contact form at masjidnow.com
 
 == Changelog ==
+
+= 1.2.0 =
+* Added caching of timings. Performance should increase by ~1000x, but YOU MUST CLEAR THE PLUGIN CACHE EVERY TIME YOU UPDATE THE TIMINGS ON MASJIDNOW.COM. 
 
 = 1.1.2 =
 * Fixed bug where adhan timings table columns were off by one.
