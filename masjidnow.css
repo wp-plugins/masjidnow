@@ -157,17 +157,17 @@
   text-align:center;
 }
  
-.masjidnow-salah-timings{
+.masjidnow-iqamah-timings, .masjidnow-adhan-timings{
   text-align:center;
 }
  
-.masjidnow-salah-timings td, .masjidnow-salah-timings th{
+.masjidnow-iqamah-timings td, .masjidnow-iqamah-timings th, .masjidnow-adhan-timings td, .masjidnow-adhan-timings th{
   padding:4px !important;
   text-align:center;
 }
  
  
-.masjidnow-salah-timings tr:nth-child(even){
+.masjidnow-iqamah-timings tr:nth-child(even), .masjidnow-adhan-timings tr:nth-child(even){
   background-color:#EEE;
 }
 
@@ -186,7 +186,7 @@
  * *************
  * **/
  
-.masjidnow-theme-blue .masjidnow-salah-timings tr:nth-child(even){
+.masjidnow-theme-blue .masjidnow-iqamah-timings tr:nth-child(even){
   background-color:#E8EDFF;
 }
 
