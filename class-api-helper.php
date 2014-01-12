@@ -34,7 +34,13 @@ class MasjidNow_APIHelper{
     $adhan_timings = null;
     $iqamah_timings = null;
     $response = null;
-    $date_time_now = new DateTime("now", new DateTimeZone(get_option('timezone_string')));
+    $tz_string = get_option('timezone_string');
+    if($tz_string == "")
+    {
+      echo("Please set your website's timezone under your WordPress Admin Panel's Settings menu!");
+      $tz_string = "America/New_York";
+    }
+    $date_time_now = new DateTime("now", new DateTimeZone($tz_string));
     $month = $date_time_now->format("n");
     if(isset($this->masjid_id))
     {

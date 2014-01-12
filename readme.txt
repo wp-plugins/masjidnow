@@ -1,10 +1,10 @@
 === Plugin Name ===
 Contributors: yaj786
 Donate link: 
-Tags: masjidnow, iqamah, salah, islam, masjid, mosque, salat, prayer
+Tags: masjidnow, iqamah, prayer, salah, islam, masjid, mosque, salat
 Requires at least: 3.5.1
 Tested up to: 3.5.2
-Stable tag: 1.2.0
+Stable tag: 1.2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -46,6 +46,9 @@ To show the adhan timings schedule instead of the iqamah timings schedule, simpl
 Email me through the contact form at masjidnow.com
 
 == Changelog ==
+
+= 1.2.1 =
+* Fixed bug where widget would crash if there was no valid time zone set for the WordPress site.
 
 = 1.2.0 =
 * Added caching of timings. Performance should increase by ~1000x, but YOU MUST CLEAR THE PLUGIN CACHE EVERY TIME YOU UPDATE THE TIMINGS ON MASJIDNOW.COM. 
