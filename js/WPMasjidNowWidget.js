@@ -27,9 +27,12 @@ ready = function (f){/in/.test(document.readyState)?setTimeout('ready('+f+')',9)
     "Friday",
     "Saturday"
   ]
-
+  
   WPMasjidNowWidget.timings = {};
   WPMasjidNowWidget.date = (new Date());
+  WPMasjidNowWidget.masjid = null;
+  
+  var hasTimingsForMonth = {};
   
   WPMasjidNowWidget.setClickListeners = function()
   {
@@ -105,11 +108,41 @@ ready = function (f){/in/.test(document.readyState)?setTimeout('ready('+f+')',9)
     if(timing == null)
     {
       displayDayNoTimings();
+      if(hasTimingsForMonth[date.getMonth()] !== false)
+      {
+        //we haven't yet checked if there are timings for this month
+        var apiUrl = "http://www.masjidnow.com/api/v2/salah_timings/monthly.json?masjid_id="+WPMasjidNowWidget.masjid.id+"&month="+(date.getMonth()+1);
+        console.log("Querying url for salah timings: "+apiUrl);
+        ajaxCall(apiUrl, "WPMasjidNowWidget.parseAjaxResponse");
+      }
     }
     else
     {
       displayDayWithTimings(timing);
     }
+  }
+  
+  WPMasjidNowWidget.parseAjaxResponse = function(data)
+  {
+    WPMasjidNowWidget.saveTimings(data.masjid);
+    var date = WPMasjidNowWidget.date;
+    var timing = WPMasjidNowWidget.getTiming(date);
+    if(timing == null)
+    {
+      hasTimingsForMonth[date.getMonth()] = false;
+    }
+    else
+    {
+      WPMasjidNowWidget.displayDay(date);
+    }
+  }
+    
+  function ajaxCall(url, callbackName)
+  {
+    var script = document.createElement('script');
+    script.src = url+"&callback="+callbackName
+
+    document.getElementsByTagName('head')[0].appendChild(script);
   }
   
   function setDateText(date)

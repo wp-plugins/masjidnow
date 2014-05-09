@@ -1,6 +1,8 @@
 <div class="wrapper">
     
-    <strong>General Settings</strong> <br/><br/>
+    <p>
+      <strong>General Settings</strong>
+    </p>
     
     <p>
     <label for="<?php echo $this->get_field_id('title'); ?>">Title</label><br/>
@@ -21,10 +23,8 @@
     </p>
       
       
-    <p>The masjid id can be found by looking at the end of the masjid's URL from masjidnow.com. 
-    <br/> For example, Adam Community Center's MasjidNow page has a url of
-    <br/><em> http://masjidnow.com/masjids/5299 </em>
-    <br/> The masjid id in this case would be 5299.</p>
+    <p style="font-size:11px;">The masjid id can be found by looking at the end of the masjid's URL from masjidnow.com. 
+    <br/> ex. http://masjidnow.com/masjids/5299 has a masjid id of 5299.</p>
     
     <p>
     <input 
@@ -36,9 +36,20 @@
     <label for="<?php echo $this->get_field_id('show-adhan'); ?>">Show Adhan Column</label>
     
     </p>
+    
+    <p>
+    <input 
+      id="<?php echo $this->get_field_id('show-monthly-info'); ?>" 
+      name="<?php echo $this->get_field_name('show-monthly-info'); ?>" 
+      type="checkbox"
+      <?php echo($user_show_monthly_info ? "checked" : ""); ?> 
+    />
+    <label for="<?php echo $this->get_field_id('show-monthly-info'); ?>">Show Monthly Info (ex. Jummah times)</label>
+    
+    </p>
       
     <p>  
-    <label for="<?php echo $this->get_field_id('theme'); ?>">Theme:</label> <br/>
+    <label for="<?php echo $this->get_field_id('theme'); ?>">Widget Theme:</label> <br/>
     <select class="widefat" 
       id="<?php echo $this->get_field_id('theme'); ?>" 
       name="<?php echo $this->get_field_name('theme'); ?>" 
@@ -59,9 +70,9 @@
     <hr style="margin-top:20px; margin-bottom:20px;"/>
     
     <strong>Salah Times Calculations</strong>
-    <p>
-      These settings only take effect if you don't have salah timings uploaded to MasjidNow.com! <br/>
-      If you have timings uploaded, you can change your settings from our website.
+    <p style="font-size:11px;">
+      These settings only take effect if you don't have salah timings uploaded to MasjidNow.com.<br/>
+      If you have timings uploaded, you must change your settings from our website.
     </p>
     <p>
     <label for="<?php echo $this->get_field_id('latitude'); ?>">Latitude, Longitude</label> <br/>
