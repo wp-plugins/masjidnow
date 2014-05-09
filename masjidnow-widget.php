@@ -3,7 +3,7 @@
 Plugin Name: MasjidNow
 Plugin URI: http://wordpress.org/extend/plugins/masjidnow/
 Description: A simple widget for adding your mosque's prayer times (from MasjidNow.com) to your website. Also has a monthly short code for displaying a whole month's timings. REMEMBER TO CLEAR THE CACHE after updating the timings on MasjidNow.com
-Version: 1.2.1
+Version: 1.3.0
 Author: Yousuf Jukaku
 Author URI: http://masjidnow.com
 License: GPL2
@@ -14,6 +14,7 @@ include("libs/MasjidNowTimeZoneNames.php");
 include("class-praytime-helper.php");
 include("class-api-helper.php");
 include("monthly.php");
+include("daily.php");
 
 
 class MasjidNow_Widget extends WP_Widget
@@ -42,6 +43,7 @@ class MasjidNow_Widget extends WP_Widget
         'title' => '',
         'masjid-id' => '',
         'show-adhan' => false,
+        'show-monthly-info' => false,
         'theme' => 'default',
         'time-zone-id' => "America/New_York",
         'pray-time-calc-method' => 2,
@@ -53,6 +55,7 @@ class MasjidNow_Widget extends WP_Widget
     $title = $instance['title'];
     $masjid_id = $instance['masjid-id'];
     $user_show_adhan = $instance['show-adhan'];
+    $user_show_monthly_info = $instance['show-monthly-info'];
     $theme = $instance['theme'];
     $time_zone_id = $instance['time-zone-id'];
     $latitude = $instance['latitude'];
@@ -70,6 +73,7 @@ class MasjidNow_Widget extends WP_Widget
     $instance['title'] = $new_instance['title'];
     $instance['masjid-id'] = $new_instance['masjid-id'];
     $instance['show-adhan'] = $new_instance['show-adhan'];
+    $instance['show-monthly-info'] = $new_instance['show-monthly-info'];
     $instance['theme'] = $new_instance['theme'];
     $instance['time-zone-id'] = $new_instance['time-zone-id'];
     $instance['latitude'] = $new_instance['latitude'];
@@ -108,6 +112,8 @@ class MasjidNow_Widget extends WP_Widget
     $response = $api_helper->get_timings();
     $adhan_times = $response["adhan_timings"];
     $iqamah_times = $response["iqamah_timings"];
+    $monthly_info = $response["monthly_info"];
+    $masjid_url = $response["url"];
     
     include("masjidnow-daily-output.php");
     
@@ -124,6 +130,11 @@ class MasjidNow_Widget extends WP_Widget
   function should_show_adhan($instance)
   {
     return empty($instance['show-adhan']) ? false : $instance['show-adhan'];
+  }
+  
+  function should_show_monthly_info($instance)
+  {
+    return empty($instance['show-monthly-info']) ? false : $instance['show-monthly-info'];
   }
 
   function get_salah_row_start_tag($count)
@@ -168,6 +179,9 @@ function MasjidNow_plugin_options_page()
 }
 
 add_action( 'widgets_init', create_function('', 'return register_widget("MasjidNow_Widget");') );
+
+
+add_shortcode("masjidnow_daily", "MasjidNowDaily_getCombinedOutput");
 
 add_shortcode("masjidnow_monthly", "MasjidNowMonthly_getIqamahOutput");
 add_shortcode("masjidnow_monthly_adhan", "MasjidNowMonthly_getAdhanOutput");

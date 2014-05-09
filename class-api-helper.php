@@ -61,6 +61,8 @@ class MasjidNow_APIHelper{
       
       $adhan_timings = $this->get_adhan_timing($response);
       $iqamah_timings = $this->get_iqamah_timing($response);
+      $monthly_info = $this->get_monthly_info($response);
+      $url = $this->get_masjid_url($response);
     }
     else
     {
@@ -70,11 +72,15 @@ class MasjidNow_APIHelper{
     
     $this->iqamah_timings = $iqamah_timings;
     $this->adhan_timings = $adhan_timings;
+    $this->monthly_info = $monthly_info;
+    $this->url = $url;
     
     
     return array(
       "adhan_timings" => $adhan_timings,
       "iqamah_timings" => $iqamah_timings,
+      "url" => $url,
+      "monthly_info" => $monthly_info,
       "raw" => $response
     );
   }
@@ -180,8 +186,8 @@ class MasjidNow_APIHelper{
   
   function invalidate_cache($month)
   {
-    delete_option($this->get_cache_key);
-    delete_option($this->get_cache_timestamp_key);
+    delete_option($this->get_cache_key($month));
+    delete_option($this->get_cache_timestamp_key($month));
   }
   
   function has_requested_timing($response, $month, $day = null)
@@ -227,6 +233,26 @@ class MasjidNow_APIHelper{
       $response = json_decode($response["body"]);
       return $response;
     }
+  }
+  
+  function get_masjid_url($response)
+  {
+    
+    if($response != null && isset($response->masjid) && isset($response->masjid->url))
+    {
+      return $response->masjid->url;
+    }
+    return null;
+  }
+  
+  function get_monthly_info($response)
+  {
+
+    if($response != null && isset($response->masjid) && isset($response->masjid->monthly_info))
+    {
+      return $response->masjid->monthly_info;
+    }
+    return null;
   }
   
   function get_iqamah_timing($response)
