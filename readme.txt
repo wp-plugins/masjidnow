@@ -3,8 +3,8 @@ Contributors: yaj786
 Donate link: 
 Tags: masjidnow, iqamah, prayer, salah, islam, masjid, mosque, salat
 Requires at least: 3.5.1
-Tested up to: 3.5.2
-Stable tag: 1.3.0
+Tested up to: 3.8.3
+Stable tag: 1.3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -43,7 +43,7 @@ To show the adhan timings schedule instead of the iqamah timings schedule, simpl
 
 = Why is the widget displaying "Please set your website's timezone..." when I have already set it? =
 
-Unfortunately, due to the way that WordPress provides timezone information, you must set the timezone option to a "named" timezone. For example, instead of choosing "UTC+4", you must choose something like "New York". 
+Unfortunately, due to the way that WordPress provides timezone information, you must set the timezone option to a "named" timezone. For example, instead of choosing "UTC-4", you must choose something like "New York". 
 
 = Why is my widget or shortcode showing outdated or old timings? =
 
@@ -58,6 +58,9 @@ from the MasjidNow website.
 Email me through the contact form at masjidnow.com
 
 == Changelog ==
+
+= 1.3.1 =
+* Fixed bug with mobile app icon links.
 
 = 1.3.0 =
 * Added ability to display monthly info underneath the daily timings widget. Be sure to check the correct checkbox on the widget settings.
