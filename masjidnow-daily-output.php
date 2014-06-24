@@ -22,6 +22,12 @@ else
 }
 
 $iqamah_date_str = "Iqamah timings for ".$api_helper->get_iqamah_date_str("D M j, Y");
+$hijri_date_str = "";
+if(isset($iqamah_times["hijri_date"]) && $iqamah_times["hijri_date"] != "")
+{
+  $hijri_date_str = $iqamah_times["hijri_date"];
+}
+
 
 $show_iqamah = $this->should_show_iqamah($api_helper);
 $show_adhan = $this->should_show_adhan($instance);
@@ -75,8 +81,10 @@ if($iqamah_date_time)
   <div class="masjidnow-next-day"></div>
   <?php } ?>
  <div class='masjidnow-date'>
-  <?php echo($date_time_now->format("D M j, Y"))?>
+  <?php echo($date_time_now->format("D M j, Y"))?> <br/>
+  <?php echo($hijri_date_str) ?>
  </div>
+ 
 
  <table class='masjidnow-salah-timings-table'>
   

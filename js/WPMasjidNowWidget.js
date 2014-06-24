@@ -220,6 +220,10 @@ ready = function (f){/in/.test(document.readyState)?setTimeout('ready('+f+')',9)
       {
       }
     }
+    if(timing.hijri_date)
+    {
+        container.querySelector(".masjidnow-date").innerHTML += ("<br/>"+timing.hijri_date);
+    }
   }
   
   //ready = function(){console.log("ready.")};

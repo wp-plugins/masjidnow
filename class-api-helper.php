@@ -268,8 +268,12 @@ class MasjidNow_APIHelper{
         "isha" => $salah_timing->isha,
         "month" => $salah_timing->month - 1,
         "day" => $salah_timing->day,
-        "year" => $salah_timing->year,
+        "year" => $salah_timing->year
       );
+      if(isset($salah_timing->hijri_date))
+      {
+        $iqamah_timings["hijri_date"] = $salah_timing->hijri_date;
+      }
     }
     else
     {
@@ -282,6 +286,7 @@ class MasjidNow_APIHelper{
         "month" => $this->date_time_now->format("m"),
         "day" => $this->date_time_now->format("d"),
         "year" => $this->date_time_now->format("Y"),
+        "hijri_date" => ""
       );
     }
     return $iqamah_timings;
