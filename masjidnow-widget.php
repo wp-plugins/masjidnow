@@ -3,7 +3,7 @@
 Plugin Name: MasjidNow
 Plugin URI: http://wordpress.org/extend/plugins/masjidnow/
 Description: A simple widget for adding your mosque's prayer times (from MasjidNow.com) to your website. Also has a monthly short code for displaying a whole month's timings. REMEMBER TO CLEAR THE CACHE after updating the timings on MasjidNow.com
-Version: 1.3.2
+Version: 1.4.0
 Author: Yousuf Jukaku
 Author URI: http://masjidnow.com
 License: GPL2
@@ -44,6 +44,10 @@ class MasjidNow_Widget extends WP_Widget
         'masjid-id' => '',
         'show-adhan' => false,
         'show-monthly-info' => false,
+        'show-name' => 'on',
+        'bg-color' => null,
+        'primary-color' => '',
+        'secondary-color' => '',
         'theme' => 'default',
         'time-zone-id' => "America/New_York",
         'pray-time-calc-method' => 2,
@@ -56,12 +60,23 @@ class MasjidNow_Widget extends WP_Widget
     $masjid_id = $instance['masjid-id'];
     $user_show_adhan = $instance['show-adhan'];
     $user_show_monthly_info = $instance['show-monthly-info'];
+    $show_name = $instance['show-name'];
+    $bg_color = $instance['bg-color'];
+    $primary_color = $instance['primary-color'];
+    $secondary_color = $instance['secondary-color'];
     $theme = $instance['theme'];
     $time_zone_id = $instance['time-zone-id'];
     $latitude = $instance['latitude'];
     $longitude = $instance['longitude'];
     $pray_time_calc_method = $instance['pray-time-calc-method'];
     $pray_time_asr_juristic = $instance['pray-time-asr-juristic'];
+    
+    // Css rules for Color Picker
+    wp_enqueue_style( 'wp-color-picker' );
+    // Register javascript
+  
+    wp_register_script( 'masjidnow-admin-js', plugins_url('js/masjidnow-admin.js', __FILE__), array( 'jquery', 'wp-color-picker' ), '', true);
+    wp_enqueue_script('masjidnow-admin-js');
     
     include 'masjidnow-admin.php';
   }
@@ -74,12 +89,18 @@ class MasjidNow_Widget extends WP_Widget
     $instance['masjid-id'] = $new_instance['masjid-id'];
     $instance['show-adhan'] = $new_instance['show-adhan'];
     $instance['show-monthly-info'] = $new_instance['show-monthly-info'];
+    $instance['show-name'] = $new_instance['show-name'];
+    $instance['bg-color'] = $new_instance['bg-color'];
+    $instance['primary-color'] = $new_instance['primary-color'];
+    $instance['secondary-color'] = $new_instance['secondary-color'];
     $instance['theme'] = $new_instance['theme'];
     $instance['time-zone-id'] = $new_instance['time-zone-id'];
     $instance['latitude'] = $new_instance['latitude'];
     $instance['longitude'] = $new_instance['longitude'];
     $instance['pray-time-calc-method'] = $new_instance['pray-time-calc-method'];
     $instance['pray-time-asr-juristic'] = $new_instance['pray-time-asr-juristic'];
+    
+    
     return $instance;
   }
  
@@ -91,15 +112,14 @@ class MasjidNow_Widget extends WP_Widget
   
     echo $before_widget;
     $title = empty($instance['title']) ? NULL : apply_filters('widget_title', $instance['title']); 
-    $masjid_id = empty($instance['masjid-id']) ? NULL : $instance['masjid-id'];  
-    $theme = empty($instance['theme']) ? 'default' : $instance['theme'];    
-    $theme = self::THEME_PREFIX.$theme;
+    $masjid_id = empty($instance['masjid-id']) ? NULL : $instance['masjid-id'];    
+    $show_name = empty($instance['show-name']) ? 'off' : $instance['show-name'];  
+    $bg_color = empty($instance['bg-color']) ? '' : $instance['bg-color']; 
+    $primary_color = empty($instance['primary-color']) ? '' : $instance['primary-color']; 
+    $secondary_color = empty($instance['secondary-color']) ? '' : $instance['secondary-color'];  
        
     $location = MasjidNow_PrayTimeHelper::get_location($instance);
-    
-    // Do Your Widgety Stuff Here...
 
-    
     //wordpress changes this elsewhere, so save it and reset it at the end of the function.
     $original_time_zone_id = date_default_timezone_get();
     $time_zone_id = $location["time_zone_id"];
@@ -114,6 +134,15 @@ class MasjidNow_Widget extends WP_Widget
     $iqamah_times = $response["iqamah_timings"];
     $monthly_info = $response["monthly_info"];
     $masjid_url = $response["url"];
+    
+    $prayer_names = get_option("masjidnow-prayer-names", array(
+      "fajr" => "Fajr",
+      "sunrise" => "Sunrise",
+      "dhuhr" => "Dhuhr",
+      "asr" => "Asr",
+      "maghrib" => "Maghrib",
+      "isha" => "Isha"
+    ));
     
     include("masjidnow-daily-output.php");
     
@@ -136,18 +165,6 @@ class MasjidNow_Widget extends WP_Widget
   {
     return empty($instance['show-monthly-info']) ? false : $instance['show-monthly-info'];
   }
-
-  function get_salah_row_start_tag($count)
-  {
-    if($count % 2 != 0)
-    {
-      return "<tr class='masjidnow-salah-row masjid-salah-row-alt'>";
-    }
-    else
-    {
-      return "<tr class='masjidnow-salah-row'>";
-    }
-  }
   
   function add_stylesheet() {
       // Respects SSL, Style.css is relative to the current file
@@ -169,6 +186,18 @@ class MasjidNow_Widget extends WP_Widget
   function get_theme_descs()
   {
     return self::THEME_DESCS;
+  }
+  
+  function get_salah_row_start_tag($num, $alt_color)
+  {
+    if($num % 2 == 1)
+    {
+      return "<tr class='masjidnow-salah-row' style='background-color: $alt_color ;'>";
+    }
+    else
+    {
+      return "<tr class='masjidnow-salah-row'>";
+    }
   }
   
 }

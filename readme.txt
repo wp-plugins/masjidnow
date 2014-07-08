@@ -3,8 +3,8 @@ Contributors: yaj786
 Donate link: 
 Tags: masjidnow, iqamah, prayer, salah, islam, masjid, mosque, salat
 Requires at least: 3.5.1
-Tested up to: 3.8.3
-Stable tag: 1.3.2
+Tested up to: 3.9
+Stable tag: 1.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -58,6 +58,11 @@ from the MasjidNow website.
 Email me through the contact form at masjidnow.com
 
 == Changelog ==
+
+= 1.4.0 =
+* Added custom colors for text and background of widgets.
+* Added support for multiple languages. You can change the names of the prayers (ex. Isha => Ichaa) by going to the 'Settings > MasjidNow Settings' page.
+* Made previous/next day arrows easier to click.
 
 = 1.3.2 =
 * Added hijri date output. You can control whether or not this is shown by changing your mobile settings on MasjidNow.com

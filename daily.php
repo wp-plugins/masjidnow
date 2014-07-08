@@ -6,7 +6,11 @@ function MasjidNowDaily_getCombinedOutput($attrs)
     'masjid_id' => null,
     'month' => null,
     'show_adhan' => false,
-    'show_monthly_info' => false
+    'show_monthly_info' => false,
+    'show_name' => true,
+    'bg_color' => '',
+    'primary_color' => '',
+    'secondary_color' => ''
   ), $attrs ) );
   
   $shortcode = "masjidnow_daily";
@@ -48,10 +52,23 @@ function MasjidNowDaily_getCombinedOutput($attrs)
     
     $adhan_times = $response["adhan_timings"];
     $iqamah_times = $response["iqamah_timings"];
-    $masjid_path = $response["url"];
-    $masjid_url = "http://www.masjidnow.com$masjid_path";
+    $masjid_url = $response["url"];
     $monthly_info = $response["monthly_info"];
     $url = $response["url"];
+    $hijri_date_str = "";
+    if(isset($iqamah_times["hijri_date"]) && $iqamah_times["hijri_date"] != "")
+    {
+      $hijri_date_str = $iqamah_times["hijri_date"];
+    }
+    
+    $prayer_names = get_option("masjidnow-prayer-names", array(
+      "fajr" => "Fajr",
+      "sunrise" => "Sunrise",
+      "dhuhr" => "Dhuhr",
+      "asr" => "Asr",
+      "maghrib" => "Maghrib",
+      "isha" => "Isha"
+    ));
     
     ob_start();
     include($outputTemplateFile);
@@ -65,5 +82,16 @@ function MasjidNowDaily_getCombinedOutput($attrs)
   }
 }
 
+function get_salah_row_start_tag($num, $alt_color)
+{
+  if($num % 2 == 1)
+  {
+    return "<tr class='masjidnow-salah-row' style='background-color: $alt_color ;'>";
+  }
+  else
+  {
+    return "<tr class='masjidnow-salah-row'>";
+  }
+}
 
 ?>

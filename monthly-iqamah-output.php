@@ -5,11 +5,11 @@
   <table class='masjidnow-iqamah-timings'>
     <tr>
       <th><?php echo($date_time->format("M")) ?>/Day</th>
-      <th>Fajr</th>
-      <th>Dhuhr</th>
-      <th>Asr</th>
-      <th>Maghrib</th>
-      <th>Isha</th>
+      <th><?php echo($prayer_names["fajr"]) ?></th>
+      <th><?php echo($prayer_names["dhuhr"]) ?></th>
+      <th><?php echo($prayer_names["asr"]) ?></th>
+      <th><?php echo($prayer_names["maghrib"]) ?></th>
+      <th><?php echo($prayer_names["isha"]) ?></th>
     </tr>
     
     <?php for($i =0; $i < count($timings); $i++) {

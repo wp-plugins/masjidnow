@@ -7,6 +7,15 @@ function MasjidNowMonthly_getOutput($attrs, $iqamah)
     'month' => null
   ), $attrs ) );
  
+  $prayer_names = get_option("masjidnow-prayer-names", array(
+    "fajr" => "Fajr",
+    "sunrise" => "Sunrise",
+    "dhuhr" => "Dhuhr",
+    "asr" => "Asr",
+    "maghrib" => "Maghrib",
+    "isha" => "Isha"
+  ));
+ 
   $shortcode = $iqamah ? "masjidnow_monthly" : "masjidnow_monthly_adhan";
   $outputTemplateFile = $iqamah ? "monthly-iqamah-output.php" : "monthly-adhan-output.php"; 
   
