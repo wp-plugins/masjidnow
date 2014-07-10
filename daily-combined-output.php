@@ -46,10 +46,10 @@
   <tr>
     <th></th>
     <?php if($show_adhan) { ?>
-      <th>Adhan</th>
+      <th><?php echo($prayer_names["adhan"]) ?></th>
     <?php } ?>
     <?php if($show_iqamah) { ?>
-      <th>Iqamah</th>
+      <th><?php echo($prayer_names["iqamah"]) ?></th>
     <?php } ?>
   </tr>
    

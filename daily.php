@@ -2,7 +2,7 @@
 
 function MasjidNowDaily_getCombinedOutput($attrs)
 {
-  extract( shortcode_atts( array(
+  $defaults = array(
     'masjid_id' => null,
     'month' => null,
     'show_adhan' => false,
@@ -11,7 +11,12 @@ function MasjidNowDaily_getCombinedOutput($attrs)
     'bg_color' => '',
     'primary_color' => '',
     'secondary_color' => ''
-  ), $attrs ) );
+  );
+  extract( shortcode_atts( $defaults, $attrs ) );
+  
+  $show_monthly_info = ($show_monthly_info == "true");
+  $show_name = ($show_name == "true");
+  $show_adhan = ($show_adhan == "true");
   
   $shortcode = "masjidnow_daily";
  
@@ -67,7 +72,9 @@ function MasjidNowDaily_getCombinedOutput($attrs)
       "dhuhr" => "Dhuhr",
       "asr" => "Asr",
       "maghrib" => "Maghrib",
-      "isha" => "Isha"
+      "isha" => "Isha",
+      "adhan" => "Adhan",
+      "iqamah" => "Iqamah"
     ));
     
     ob_start();

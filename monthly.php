@@ -2,10 +2,12 @@
 
 function MasjidNowMonthly_getOutput($attrs, $iqamah)
 {
-  extract( shortcode_atts( array(
+  $defaults = array(
     'masjid_id' => null,
-    'month' => null
-  ), $attrs ) );
+    'month' => null,
+    'title' => ($iqamah ? "Iqamah Timings" : "Adhan Timings")
+  );
+  extract( shortcode_atts( $defaults, $attrs ) );
  
   $prayer_names = get_option("masjidnow-prayer-names", array(
     "fajr" => "Fajr",

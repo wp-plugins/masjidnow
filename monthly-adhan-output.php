@@ -1,6 +1,6 @@
 <div class='masjidnow-monthly-container'>
 
-  <div class='masjidnow-month'><?php echo($date_time->format("F Y")) ?> | Adhan Timings</div>
+  <div class='masjidnow-month'><?php echo($date_time->format("F Y")) ?> | <?php echo $title ?></div>
 
   <table class='masjidnow-adhan-timings'>
     <tr>

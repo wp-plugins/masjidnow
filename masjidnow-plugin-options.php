@@ -1,15 +1,22 @@
 <?php
 
-  $prayer_keys = array("fajr", "sunrise", "dhuhr", "asr", "maghrib", "isha");
+  $prayer_keys = array("fajr", "sunrise", "dhuhr", "asr", "maghrib", "isha", "adhan", "iqamah");
   
-  $prayer_names = get_option("masjidnow-prayer-names", array(
+  $default_names = array(
     "fajr" => "Fajr",
     "sunrise" => "Sunrise",
     "dhuhr" => "Dhuhr",
     "asr" => "Asr",
     "maghrib" => "Maghrib",
-    "isha" => "Isha"
-  ));
+    "isha" => "Isha",
+    "adhan" => "Adhan",
+    "iqamah" => "Iqamah"
+  );
+  $prayer_names = get_option("masjidnow-prayer-names", $default_names);
+  
+  //just in case prayer_names is missing some defaults
+  $prayer_names = array_merge($prayer_names, $default_names);
+  
   
   if(isset($_POST["masjidnow"]) && isset($_POST["masjidnow"]["invalidate-cache"]) && $_POST["masjidnow"]["invalidate-cache"] == true)
   {
