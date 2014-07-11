@@ -2,8 +2,8 @@
 /*
 Plugin Name: MasjidNow
 Plugin URI: http://wordpress.org/extend/plugins/masjidnow/
-Description: A simple widget for adding your mosque's prayer times (from MasjidNow.com) to your website. Also has a monthly short code for displaying a whole month's timings. REMEMBER TO CLEAR THE CACHE after updating the timings on MasjidNow.com
-Version: 1.4.1
+Description: Widgets and shortcodes to display your daily and monthly adhan and iqamah timings from MasjidNow.com. Calculated adhan times available too!
+Version: 1.4.2
 Author: Yousuf Jukaku
 Author URI: http://masjidnow.com
 License: GPL2
@@ -44,6 +44,7 @@ class MasjidNow_Widget extends WP_Widget
         'masjid-id' => '',
         'show-adhan' => false,
         'show-monthly-info' => false,
+        'extra-info' => '',
         'show-name' => 'on',
         'bg-color' => null,
         'primary-color' => '',
@@ -60,6 +61,7 @@ class MasjidNow_Widget extends WP_Widget
     $masjid_id = $instance['masjid-id'];
     $user_show_adhan = $instance['show-adhan'];
     $user_show_monthly_info = $instance['show-monthly-info'];
+    $extra_info = $instance['extra-info'];
     $show_name = $instance['show-name'];
     $bg_color = $instance['bg-color'];
     $primary_color = $instance['primary-color'];
@@ -89,6 +91,7 @@ class MasjidNow_Widget extends WP_Widget
     $instance['masjid-id'] = $new_instance['masjid-id'];
     $instance['show-adhan'] = $new_instance['show-adhan'];
     $instance['show-monthly-info'] = $new_instance['show-monthly-info'];
+    $instance['extra-info'] = $new_instance['extra-info'];
     $instance['show-name'] = $new_instance['show-name'];
     $instance['bg-color'] = $new_instance['bg-color'];
     $instance['primary-color'] = $new_instance['primary-color'];
@@ -114,6 +117,7 @@ class MasjidNow_Widget extends WP_Widget
     $title = empty($instance['title']) ? NULL : apply_filters('widget_title', $instance['title']); 
     $masjid_id = empty($instance['masjid-id']) ? NULL : $instance['masjid-id'];    
     $show_name = empty($instance['show-name']) ? 'off' : $instance['show-name'];  
+    $extra_info = empty($instance['extra-info']) ? '' : $instance['extra-info'];  
     $bg_color = empty($instance['bg-color']) ? '' : $instance['bg-color']; 
     $primary_color = empty($instance['primary-color']) ? '' : $instance['primary-color']; 
     $secondary_color = empty($instance['secondary-color']) ? '' : $instance['secondary-color'];  
@@ -134,6 +138,7 @@ class MasjidNow_Widget extends WP_Widget
     $iqamah_times = $response["iqamah_timings"];
     $monthly_info = $response["monthly_info"];
     $masjid_url = $response["url"];
+    
     
     $prayer_names = get_option("masjidnow-prayer-names", array(
       "fajr" => "Fajr",

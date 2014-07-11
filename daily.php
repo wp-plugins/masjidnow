@@ -7,6 +7,7 @@ function MasjidNowDaily_getCombinedOutput($attrs)
     'month' => null,
     'show_adhan' => false,
     'show_monthly_info' => false,
+    'extra_info' => '',
     'show_name' => true,
     'bg_color' => '',
     'primary_color' => '',
@@ -17,6 +18,7 @@ function MasjidNowDaily_getCombinedOutput($attrs)
   $show_monthly_info = ($show_monthly_info == "true");
   $show_name = ($show_name == "true");
   $show_adhan = ($show_adhan == "true");
+  $extra_info = trim($extra_info);
   
   $shortcode = "masjidnow_daily";
  

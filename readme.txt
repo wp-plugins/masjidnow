@@ -1,10 +1,10 @@
-=== Plugin Name ===
+=== MasjidNow Prayer Timings ===
 Contributors: yaj786
 Donate link: 
 Tags: masjidnow, iqamah, prayer, salah, islam, masjid, mosque, salat
 Requires at least: 3.5.1
 Tested up to: 3.9
-Stable tag: 1.4.1
+Stable tag: 1.4.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,12 +12,23 @@ Widgets and shortcodes to display your daily and monthly adhan and iqamah timing
 
 == Description ==
 
-Provides a widget for displaying daily iqamah timings from MasjidNow.com for any mosque that has uploaded it's timings there.
+Provides a widget for displaying daily iqamah timings from [MasjidNow.com](http://masjidnow.com) for any mosque that has uploaded it's timings there.
 The timings are displayed along-side adhan timings which can be adjusted from the plugin's settings if necessary.
 
 Also provides a shortcode for displaying the monthly iqamah timings table.
 
 The daily timings widgets are easily customizable with different colors, and can even be used with different languages.
+
+**Features:**
+
+* Display adhan and iqamah times
+* Interactive with ability to click forward and backward to see different day's timings
+* View daily or monthly timings
+* Show monthly information (ex. Jummah times)
+* Choose from different themes or colors
+* Usable with any language site
+
+To be able to show timings, you must have [signed up your mosque](http://masjidnow.com) at MasjidNow.com.
 
 ATTENTION: You must clear the cache after updating the masjid's salah timings. You can do this by going the MasjidNow Settings page and clicking "Clear Cache".
 
@@ -64,13 +75,16 @@ Or to show the monthly information at the bottom of the table:
 
 **Accepted Parameters for Daily Timings:**
 
-* masjid_id - (integer) This is the masjid id that can be found from the MasjidNow.com masjid page url
-* show_adhan - (true or false) Whether to show the adhan timings from MasjidNow.com
-* show_monthly_info - (true or false) Whether to show the additional monthly info at the bottom of the table (ex. Jummah/Friday Prayer times) 
-* show_name - (true or false) Whether to show the name of the mosque at the bottom of the table
-* bg_color - (color code like #FFFF00) What color to make the background of the table. Leave blank to make the background transparent.
-* primary_color - (color code like #FFFF00) What color to make the text.
-* secondary_color - (color code like #FFFF00) What color to make the alternating rows of the table.
+*All parameters are optional*
+
+* **masjid_id** - *(integer)* This is the masjid id that can be found from the MasjidNow.com masjid page url
+* **show_adhan** - *(true or false)* Whether to show the adhan timings from MasjidNow.com
+* **show_monthly_info** - *(true or false)* Whether to show the additional monthly info at the bottom of the table (ex. Jummah/Friday Prayer times) 
+* **show_name** - *(true or false)* Whether to show the name of the mosque at the bottom of the table
+* **bg_color** - *(color code like #FFFF00)* What color to make the background of the table. Leave blank to make the background transparent.
+* **primary_color** - *(color code like #FFFF00)* What color to make the text.
+* **secondary_color** - *(color code like #FFFF00)* What color to make the alternating rows of the table.
+* **extra_info** - *(text)* Any text that you would like to display under the timings. This should be surrounded by quotes. Accepts basic HTML.
 
 = Monthly Timings Table Shortcode =
 
@@ -90,8 +104,8 @@ You can customize the monthly shortcodes by adding more parameters. For example,
 
 **Accepted Parameters for Monthly Timings Table:**
 
-* masjid_id - (integer) This is the masjid id that can be found from the MasjidNow.com masjid page url
-* title - The text that displays at the top of the timings table next to the month and year
+* **masjid_id** - *(integer)* This is the masjid id that can be found from the MasjidNow.com masjid page url
+* **title** - *(text)* The text that displays at the top of the timings table next to the month and year. Should be surrounded by quotes.
 
 
 = Using the Widget in a Different Language =
@@ -115,9 +129,17 @@ This ensures that timings are displayed quickly and don't slow down your website
 To clear these cached timings, go to your WordPress Admin panel, and click Settings > MasjidNow Settings on the left hand side. Then click the button labeled "Clear Cache". Your timings will then be updated
 from the MasjidNow website.
 
+= My website is not in English, can I change the language that is displayed? =
+
+No problem. Just go to your WordPress admin page, and click Settings on the left hand side. Once there, click "MasjidNow Settings".
+
+If you scroll down, you will see an area where you can set what text will be displayed for each prayer name, and for "Adhan" and "Iqamah".
+
+For example, French users can enter "Ichaa" instead of "Isha", and all of MasjidNow's timings will display "Ichaa" instead of "Isha".
+
 = I have a question that isn't listed here, what should I do? =
 
-Email me through the contact form at masjidnow.com
+Email me through the contact form at [masjidnow.com](http://masjidnow.com)
 
 == Changelog ==
 

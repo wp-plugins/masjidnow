@@ -121,8 +121,16 @@
  
  <?php if($show_iqamah && $show_monthly_info) { ?>
  
-  <div class='monthly-info'>
+  <div class='masjidnow-monthly-info'>
     <?php echo $monthly_info ?>
+  </div>
+ 
+ <?php } ?>
+ 
+ <?php if(trim($extra_info) != false) { ?>
+ 
+  <div class='masjidnow-extra-info'>
+    <?php echo $extra_info ?>
   </div>
  
  <?php } ?>

@@ -52,6 +52,15 @@
     
     </p>
         
+    <p>
+      <label for="<?php echo $this->get_field_id('show-monthly-info'); ?>">Extra Info (optional)</label> <br/>
+      <span style="font-size:11px;">Displayed at the bottom of the table. If you have monthly info being shown, this is probably unnecessary.</span> <br/>
+      <textarea
+        id="<?php echo $this->get_field_id('extra-info'); ?>" 
+        name="<?php echo $this->get_field_name('extra-info'); ?>" 
+        style="width:100%;"
+      ><?php echo(trim($extra_info)); ?></textarea>
+    </p>
         
     <p>
     <input 
