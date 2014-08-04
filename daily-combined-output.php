@@ -28,6 +28,8 @@
 
 <div class="masjidnow-container">
 
+  <!-- <?php echo("MasjidNow Plugin v".$GLOBALS["MASJIDNOW_PLUGIN_VERSION"]) ?> -->
+
   <?php if($show_iqamah) { ?>
   <div class="masjidnow-prev-day">
     <div class="masjidnow-left-arrow"></div>

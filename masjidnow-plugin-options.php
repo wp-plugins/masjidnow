@@ -1,5 +1,5 @@
 <?php
-
+  $cache_cleared = false;
   $prayer_keys = array("fajr", "sunrise", "dhuhr", "asr", "maghrib", "isha", "adhan", "iqamah");
   
   $default_names = array(
@@ -20,11 +20,16 @@
   
   if(isset($_POST["masjidnow"]) && isset($_POST["masjidnow"]["invalidate-cache"]) && $_POST["masjidnow"]["invalidate-cache"] == true)
   {
+    //legacy cache with only one masjid supported.
     for($i =1; $i <= 12; $i++)
     {
       delete_option("masjidnow-cached-api-response-$i");
       delete_option("masjidnow-cached-api-response-$i-timestamp");
     }
+    
+    // new cache
+    delete_option("masjidnow-cached-api-responses");
+    
     $cache_cleared = true;
   }
   

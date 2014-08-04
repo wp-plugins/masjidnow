@@ -8,6 +8,8 @@ class MasjidNow_APIHelper{
   const PARAM_MASJID_ID = "masjid_id";
   const PARAM_MONTH = "month";
 
+  const CACHE_OPTION_KEY = "masjidnow-cached-api-responses";
+
   private $masjid_id;
   private $response;
   private $date_time_now;
@@ -44,7 +46,7 @@ class MasjidNow_APIHelper{
     $month = $date_time_now->format("n");
     if(isset($this->masjid_id))
     {
-      $response = $this->get_cached_timings($month);
+      $response = $this->get_cached_timings($this->masjid_id, $month);
       if($response == null)
       {
         //cache miss, so make api request
@@ -56,7 +58,7 @@ class MasjidNow_APIHelper{
       if($response != null)
       {
         $this->masjid_exists = true;
-        $this->cache_timings($response, $month);
+        $this->cache_timings($this->masjid_id, $month, $response);
       }
       
       $adhan_timings = $this->get_adhan_timing($response);
@@ -92,7 +94,7 @@ class MasjidNow_APIHelper{
     
     if(isset($this->masjid_id))
     {
-      $response = $this->get_cached_timings($month);
+      $response = $this->get_cached_timings($this->masjid_id, $month);
       if($response == null)
       {
         //cache miss, so make api request
@@ -104,7 +106,7 @@ class MasjidNow_APIHelper{
       if($response != null)
       {
         $this->masjid_exists = true;
-        $this->cache_timings($response, $month);
+        $this->cache_timings($this->masjid_id, $month, $response);
       }
       
       if($response != null && isset($response->masjid) && isset($response->masjid->salah_timings))
@@ -128,48 +130,77 @@ class MasjidNow_APIHelper{
     return $this->masjid_exists;
   }
   
-  function get_cache_key($month)
-  {
-    $cache_option_key = "masjidnow-cached-api-response-$month";
-    return $cache_option_key;
-  }
-  
-  function get_cache_timestamp_key($month)
-  {
-    $option_key = "masjidnow-cached-api-response-$month-timestamp";
-    return $option_key;
-  }
-  
-  function cache_timings($response, $month)
+  function cache_timings($masjid_id, $month, $response)
   {
     if($response != null)
     {
-      update_option($this->get_cache_key($month), $response);
-      update_option($this->get_cache_timestamp_key($month), time());
+      $cached_responses = get_option(self::CACHE_OPTION_KEY, null);
+      
+      if($cached_responses == null)
+      {
+        $cached_responses = array();
+      }
+      
+      if(!isset($cached_responses["$masjid_id"]))
+      {
+        $cached_responses["$masjid_id"] = array();
+      }
+      
+      $cache_entry = $cached_responses["$masjid_id"];
+      
+      if(!isset($cache_entry["$month"]))
+      {
+        $cache_entry["$month"] = array();
+      }
+      
+      $month_entry = $cache_entry["$month"];
+      
+      $month_entry["timestamp"] = time();
+      
+      $month_entry["response"] = $response;
+      
+      //now put the data in the right places
+      $cache_entry["$month"] = $month_entry;
+      $cached_responses["$masjid_id"] = $cache_entry;
+      
+      update_option(self::CACHE_OPTION_KEY, $cached_responses); 
     }
   }
   
-  function get_cached_timings($month)
+  function get_cached_timings($masjid_id, $month)
   {
-    $cache_option_key = $this->get_cache_key($month);
-    $cache_timestamp_option_key = $this->get_cache_timestamp_key($month);
-    $cached_response = get_option($cache_option_key, null);
+    $cached_responses = get_option(self::CACHE_OPTION_KEY, null);
     
-    if($cached_response == null)
+    if($cached_responses == null)
     {
       return null;
     }
     
+    if(!isset($cached_responses["$masjid_id"]))
+    {
+      return null;
+    }
+    
+    $cache_entry = $cached_responses["$masjid_id"];
+    
+    if(!isset($cache_entry["$month"]))
+    {
+        return null;
+    }
+    
+    $month_entry = $cache_entry["$month"];
+    
     //firstly, discard if older than 15 days
-    $cached_timestamp = get_option($cache_timestamp_option_key, 0);
+    $cached_timestamp = $month_entry["timestamp"];
     if(time() - $cached_timestamp > 15*24*3600)
     {
       //echo("Invalidating cache because it is too old!");
-      $this->invalidate_cache($month);
+      $this->invalidate_cache($masjid_id, $month);
       return null;
     }
     
     //now check if the stored response has the actual timings wanted
+    $cached_response = $month_entry["response"];
     if($this->has_requested_timing($cached_response, $month))
     {
       //echo("response was cached at ".$cached_timestamp);
@@ -179,15 +210,36 @@ class MasjidNow_APIHelper{
     else
     {
       //echo("cached response does not have timing");
-      $this->invalidate_cache($month);
+      $this->invalidate_cache($masjid_id, $month);
       return null;
     }
   }
   
-  function invalidate_cache($month)
+  function invalidate_cache($masjid_id, $month)
   {
-    delete_option($this->get_cache_key($month));
-    delete_option($this->get_cache_timestamp_key($month));
+    $cached_responses = get_option(self::CACHE_OPTION_KEY, null);
+    
+    if($cached_responses == null)
+    {
+      return null;
+    }
+    
+    if(!isset($cached_responses["$masjid_id"]))
+    {
+      return null;
+    }
+    
+    $cache_entry = $cached_responses["$masjid_id"];
+    
+    if(!isset($cache_entry["$month"])){
+      return null;
+    }
+    
+    unset($cached_responses["$masjid_id"]["$month"]);
+    
+    update_option(self::CACHE_OPTION_KEY, $cached_responses);
+    
+    return $cache_entry;
   }
   
   function has_requested_timing($response, $month, $day = null)

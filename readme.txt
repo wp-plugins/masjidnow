@@ -4,7 +4,7 @@ Donate link:
 Tags: masjidnow, iqamah, prayer, salah, islam, masjid, mosque, salat
 Requires at least: 3.5.1
 Tested up to: 3.9
-Stable tag: 1.4.2
+Stable tag: 1.5.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -142,6 +142,9 @@ For example, French users can enter "Ichaa" instead of "Isha", and all of Masjid
 Email me through the contact form at [masjidnow.com](http://masjidnow.com)
 
 == Changelog ==
+
+= 1.5.0 =
+* Added support for multiple masajid in one WordPress installation. Now you can have multiple mosques times on the same website. 
 
 = 1.4.1 =
 * Added daily timings shortcode and ability to customize the title of the monthly timings tables. 
