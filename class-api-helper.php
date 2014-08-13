@@ -444,7 +444,7 @@ class MasjidNow_APIHelper{
     //gives timezone offset in seconds, we need to convert to hours
     $time_zone = $this->date_time_now->getOffset()/3600;
     $pray_time = MasjidNow_PrayTimeHelper::get_pray_time($this->pray_time_settings);
-    $now_millis = $this->date_time_now->getTimestamp();
+    $now_millis = $this->date_time_now->format("U");
     $pray_time->getPrayerTimes($now_millis, $location["latitude"], $location["longitude"], $time_zone);
     $calculated_timings = $pray_time->getPrayerTimes($now_millis, $location["latitude"], $location["longitude"], $time_zone);
     $adhan_timings = array(
