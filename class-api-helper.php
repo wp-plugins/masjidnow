@@ -6,6 +6,9 @@ class MasjidNow_APIHelper{
   const PATH_DAILY = "daily.json?";
   const PATH_MONTHLY = "monthly.json?";
   const PARAM_MASJID_ID = "masjid_id";
+  const PARAM_MONTH = "month";
+
+  const CACHE_OPTION_KEY = "masjidnow-cached-api-responses";
 
   private $masjid_id;
   private $response;
@@ -33,14 +36,21 @@ class MasjidNow_APIHelper{
     $adhan_timings = null;
     $iqamah_timings = null;
     $response = null;
-    
+    $tz_string = get_option('timezone_string');
+    if($tz_string == "")
+    {
+      echo("Please set your website's timezone under your WordPress Admin Panel's Settings menu!");
+      $tz_string = "America/New_York";
+    }
+    $date_time_now = new DateTime("now", new DateTimeZone($tz_string));
+    $month = $date_time_now->format("n");
     if(isset($this->masjid_id))
     {
-      $response = $this->get_cached_response();
-      if($response == null || !$this->has_today_timing($response))
+      $response = $this->get_cached_timings($this->masjid_id, $month);
+      if($response == null)
       {
         //cache miss, so make api request
-        $response = $this->download_timings($this->masjid_id);
+        $response = $this->download_timings($this->masjid_id, $month);
       }
       
       $this->response = $response;
@@ -48,10 +58,13 @@ class MasjidNow_APIHelper{
       if($response != null)
       {
         $this->masjid_exists = true;
+        $this->cache_timings($this->masjid_id, $month, $response);
       }
       
       $adhan_timings = $this->get_adhan_timing($response);
       $iqamah_timings = $this->get_iqamah_timing($response);
+      $monthly_info = $this->get_monthly_info($response);
+      $url = $this->get_masjid_url($response);
     }
     else
     {
@@ -61,27 +74,31 @@ class MasjidNow_APIHelper{
     
     $this->iqamah_timings = $iqamah_timings;
     $this->adhan_timings = $adhan_timings;
+    $this->monthly_info = $monthly_info;
+    $this->url = $url;
     
     
     return array(
       "adhan_timings" => $adhan_timings,
       "iqamah_timings" => $iqamah_timings,
+      "url" => $url,
+      "monthly_info" => $monthly_info,
       "raw" => $response
     );
   }
   
-  function get_monthly_timings(){
+  function get_monthly_timings($month){
     $adhan_timings = null;
     $iqamah_timings = null;
     $response = null;
     
     if(isset($this->masjid_id))
     {
-      $response = $this->get_cached_response();
-      if($response == null || !$this->has_today_timing($response))
+      $response = $this->get_cached_timings($this->masjid_id, $month);
+      if($response == null)
       {
         //cache miss, so make api request
-        $response = $this->download_timings($this->masjid_id);
+        $response = $this->download_timings($this->masjid_id, $month);
       }
       
       $this->response = $response;
@@ -89,6 +106,7 @@ class MasjidNow_APIHelper{
       if($response != null)
       {
         $this->masjid_exists = true;
+        $this->cache_timings($this->masjid_id, $month, $response);
       }
       
       if($response != null && isset($response->masjid) && isset($response->masjid->salah_timings))
@@ -102,7 +120,7 @@ class MasjidNow_APIHelper{
     }
     
     return array(
-      "iqamah_timings" => $iqamah_timings,
+      "salah_timings" => $iqamah_timings,
       "raw" => $response
     );
   }
@@ -112,14 +130,142 @@ class MasjidNow_APIHelper{
     return $this->masjid_exists;
   }
   
-  function get_cached_response()
+  function cache_timings($masjid_id, $month, $response)
   {
-    return null;
+    if($response != null)
+    {
+      $cached_responses = get_option(self::CACHE_OPTION_KEY, null);
+      
+      if($cached_responses == null)
+      {
+        $cached_responses = array();
+      }
+      
+      if(!isset($cached_responses["$masjid_id"]))
+      {
+        $cached_responses["$masjid_id"] = array();
+      }
+      
+      $cache_entry = $cached_responses["$masjid_id"];
+      
+      if(!isset($cache_entry["$month"]))
+      {
+        $cache_entry["$month"] = array();
+      }
+      
+      $month_entry = $cache_entry["$month"];
+      
+      $month_entry["timestamp"] = time();
+      
+      $month_entry["response"] = $response;
+      
+      //now put the data in the right places
+      $cache_entry["$month"] = $month_entry;
+      $cached_responses["$masjid_id"] = $cache_entry;
+      
+      update_option(self::CACHE_OPTION_KEY, $cached_responses); 
+    }
+  }
+  
+  function get_cached_timings($masjid_id, $month)
+  {
+    $cached_responses = get_option(self::CACHE_OPTION_KEY, null);
+    
+    if($cached_responses == null)
+    {
+      return null;
+    }
+    
+    if(!isset($cached_responses["$masjid_id"]))
+    {
+      return null;
+    }
+    
+    $cache_entry = $cached_responses["$masjid_id"];
+    
+    if(!isset($cache_entry["$month"]))
+    {
+        return null;
+    }
+    
+    $month_entry = $cache_entry["$month"];
+    
+    //firstly, discard if older than 15 days
+    $cached_timestamp = $month_entry["timestamp"];
+    if(time() - $cached_timestamp > 15*24*3600)
+    {
+      //echo("Invalidating cache because it is too old!");
+      $this->invalidate_cache($masjid_id, $month);
+      return null;
+    }
+    
+    //now check if the stored response has the actual timings wanted
+    $cached_response = $month_entry["response"];
+    if($this->has_requested_timing($cached_response, $month))
+    {
+      //echo("response was cached at ".$cached_timestamp);
+      //echo("returning cached response.");
+      return $cached_response;
+    }
+    else
+    {
+      //echo("cached response does not have timing");
+      $this->invalidate_cache($masjid_id, $month);
+      return null;
+    }
+  }
+  
+  function invalidate_cache($masjid_id, $month)
+  {
+    $cached_responses = get_option(self::CACHE_OPTION_KEY, null);
+    
+    if($cached_responses == null)
+    {
+      return null;
+    }
+    
+    if(!isset($cached_responses["$masjid_id"]))
+    {
+      return null;
+    }
+    
+    $cache_entry = $cached_responses["$masjid_id"];
+    
+    if(!isset($cache_entry["$month"])){
+      return null;
+    }
+    
+    unset($cached_responses["$masjid_id"]["$month"]);
+    
+    update_option(self::CACHE_OPTION_KEY, $cached_responses);
+    
+    return $cache_entry;
+  }
+  
+  function has_requested_timing($response, $month, $day = null)
+  {
+    $date_time_now = new DateTime("now");
+    if($day == null)
+    {
+      $day = $date_time_now->format("d");
+    }
+    $date_time = new DateTime($date_time_now->format("y")."-".$month."-".$day);
+    
+    if($response != null && isset($response->masjid) && isset($response->masjid->salah_timings))
+    {
+      $salah_timing = $this->get_closest_timing($date_time, $response->masjid->salah_timings);
+      if($salah_timing != null)
+      {
+        return true;
+      }
+    }
+    
+    return false;
   }
 
-  function download_timings($masjid_id)
+  function download_timings($masjid_id, $month)
   {
-    $url = $this->get_monthly_timings_url($masjid_id);
+    $url = $this->get_monthly_timings_url($masjid_id, $month);
     $args = array(
       'method'      =>    'GET',
       'timeout'     =>    5,
@@ -141,6 +287,26 @@ class MasjidNow_APIHelper{
     }
   }
   
+  function get_masjid_url($response)
+  {
+    
+    if($response != null && isset($response->masjid) && isset($response->masjid->url))
+    {
+      return $response->masjid->url;
+    }
+    return null;
+  }
+  
+  function get_monthly_info($response)
+  {
+
+    if($response != null && isset($response->masjid) && isset($response->masjid->monthly_info))
+    {
+      return $response->masjid->monthly_info;
+    }
+    return null;
+  }
+  
   function get_iqamah_timing($response)
   {
     if($response != null && isset($response->masjid) && isset($response->masjid->salah_timings))
@@ -154,8 +320,12 @@ class MasjidNow_APIHelper{
         "isha" => $salah_timing->isha,
         "month" => $salah_timing->month - 1,
         "day" => $salah_timing->day,
-        "year" => $salah_timing->year,
+        "year" => $salah_timing->year
       );
+      if(isset($salah_timing->hijri_date))
+      {
+        $iqamah_timings["hijri_date"] = $salah_timing->hijri_date;
+      }
     }
     else
     {
@@ -168,6 +338,7 @@ class MasjidNow_APIHelper{
         "month" => $this->date_time_now->format("m"),
         "day" => $this->date_time_now->format("d"),
         "year" => $this->date_time_now->format("Y"),
+        "hijri_date" => ""
       );
     }
     return $iqamah_timings;
@@ -219,9 +390,11 @@ class MasjidNow_APIHelper{
     return $timing;
   }
   
-  function get_monthly_timings_url($masjid_id)
+  function get_monthly_timings_url($masjid_id, $month)
   {
-    return self::BASE_URL.self::PATH_MONTHLY.self::PARAM_MASJID_ID."=".$masjid_id;
+    $url = self::BASE_URL.self::PATH_MONTHLY.self::PARAM_MASJID_ID."=".$masjid_id."&".self::PARAM_MONTH."=".$month;
+    //echo("Using url $url");
+    return $url;
   }
   
   function get_daily_timings_url($masjid_id)
@@ -271,7 +444,7 @@ class MasjidNow_APIHelper{
     //gives timezone offset in seconds, we need to convert to hours
     $time_zone = $this->date_time_now->getOffset()/3600;
     $pray_time = MasjidNow_PrayTimeHelper::get_pray_time($this->pray_time_settings);
-    $now_millis = $this->date_time_now->getTimestamp();
+    $now_millis = $this->date_time_now->format("U");
     $pray_time->getPrayerTimes($now_millis, $location["latitude"], $location["longitude"], $time_zone);
     $calculated_timings = $pray_time->getPrayerTimes($now_millis, $location["latitude"], $location["longitude"], $time_zone);
     $adhan_timings = array(
