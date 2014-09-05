@@ -174,7 +174,7 @@
         name="<?php echo $this->get_field_name('pray-time-calc-method'); ?>" 
         type="text">
         <?php 
-        foreach(PrayTime::$CALC_METHODS as $methodKey => $methodVal){ ?>
+        foreach(MasjidNow_PrayTime::$CALC_METHODS as $methodKey => $methodVal){ ?>
           <option value="<?= $methodVal?>"
             <?= ($methodVal == $pray_time_calc_method) ? "selected": ""?>>
             <?= $methodKey ?>
@@ -192,7 +192,7 @@
         name="<?php echo $this->get_field_name('pray-time-asr-juristic'); ?>" 
         type="text">
         <?php 
-        foreach(PrayTime::$ASR_JURISTICS as $juristicKey => $juristicVal){ ?>
+        foreach(MasjidNow_PrayTime::$ASR_JURISTICS as $juristicKey => $juristicVal){ ?>
           <option value="<?php echo($juristicVal); ?>"
             <?= ($juristicVal == $pray_time_asr_juristic) ? "selected": ""?>>
             <?= $juristicKey ?>

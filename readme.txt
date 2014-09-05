@@ -3,8 +3,8 @@ Contributors: yaj786
 Donate link: 
 Tags: masjidnow, iqamah, prayer, salah, islam, masjid, mosque, salat
 Requires at least: 3.5.1
-Tested up to: 3.9.2
-Stable tag: 1.5.1
+Tested up to: 4.0
+Stable tag: 1.5.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -142,6 +142,11 @@ For example, French users can enter "Ichaa" instead of "Isha", and all of Masjid
 Email me through the contact form at [masjidnow.com](http://masjidnow.com)
 
 == Changelog ==
+
+= 1.5.2 =
+* Added plugin icons
+* Made compatible with WordPress 4.0.
+* Fixed conflicts with other plugings using PrayTime library
 
 = 1.5.1 =
 * Added support for PHP 5.2.X (fixed error caused by getTimestamp method). 
