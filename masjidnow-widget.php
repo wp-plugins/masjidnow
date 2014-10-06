@@ -3,13 +3,13 @@
 Plugin Name: MasjidNow
 Plugin URI: http://wordpress.org/extend/plugins/masjidnow/
 Description: Widgets and shortcodes to display your daily and monthly adhan and iqamah timings from MasjidNow.com. Calculated adhan times available too!
-Version: 1.5.3
+Version: 1.5.4
 Author: Yousuf Jukaku
 Author URI: http://masjidnow.com
 License: GPL2
 */
 
-$GLOBALS["MASJIDNOW_PLUGIN_VERSION"] = "1.5.3";
+$GLOBALS["MASJIDNOW_PLUGIN_VERSION"] = "1.5.4";
 
 require_once("libs/PrayTime.php");
 include("libs/MasjidNowTimeZoneNames.php");
@@ -233,8 +233,8 @@ $plugin = plugin_basename(__FILE__);
 add_filter("plugin_action_links_$plugin", 'your_plugin_settings_link' );
 
 //Add Settings page
-add_action('admin_menu', 'plugin_admin_add_page');
-function plugin_admin_add_page() {
+add_action('admin_menu', 'masjidnow_admin_add_page');
+function masjidnow_admin_add_page() {
   add_options_page('MasjidNow Settings', 'MasjidNow Settings', 'manage_options', 'masjidnow', 'MasjidNow_plugin_options_page');
 }
 

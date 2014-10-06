@@ -7,6 +7,7 @@ class MasjidNow_APIHelper{
   const PATH_MONTHLY = "monthly.json?";
   const PARAM_MASJID_ID = "masjid_id";
   const PARAM_MONTH = "month";
+  const PARAM_SRC = "src";
 
   const CACHE_OPTION_KEY = "masjidnow-cached-api-responses";
 
@@ -39,7 +40,7 @@ class MasjidNow_APIHelper{
     $tz_string = get_option('timezone_string');
     if($tz_string == "")
     {
-      echo("Please set your website's timezone under your WordPress Admin Panel's Settings menu!");
+      echo("Please set your timezone to a **named** timezone under your WordPress Admin Panel's Settings menu. (ex. Use \"New York\" instead of UTC -5)");
       $tz_string = "America/New_York";
     }
     $date_time_now = new DateTime("now", new DateTimeZone($tz_string));
@@ -392,14 +393,14 @@ class MasjidNow_APIHelper{
   
   function get_monthly_timings_url($masjid_id, $month)
   {
-    $url = self::BASE_URL.self::PATH_MONTHLY.self::PARAM_MASJID_ID."=".$masjid_id."&".self::PARAM_MONTH."=".$month;
+    $url = self::BASE_URL.self::PATH_MONTHLY.self::PARAM_MASJID_ID."=".$masjid_id."&".self::PARAM_MONTH."=".$month."&".self::PARAM_SRC."=wordpress";
     //echo("Using url $url");
     return $url;
   }
   
   function get_daily_timings_url($masjid_id)
   {
-    return self::BASE_URL.self::PATH_DAILY.self::PARAM_MASJID_ID."=".$masjid_id;
+    return self::BASE_URL.self::PATH_DAILY.self::PARAM_MASJID_ID."=".$masjid_id."&".self::PARAM_SRC."=wordpress";
   }
   
   function get_adhan_timing($response)

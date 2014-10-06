@@ -143,6 +143,9 @@ Email me through the contact form at [masjidnow.com](http://masjidnow.com)
 
 == Changelog ==
 
+= 1.5.4 =
+* Fixed naming collision with plugin add admin page function
+
 = 1.5.3 =
 * Fixed issue with missing updates to PrayTime file.
 
