@@ -6,7 +6,7 @@ class MasjidNow_PrayTimeHelper{
   
   static function get_pray_time($settings)
   {
-    $pray_time = new PrayTime($settings["calc_method"]);
+    $pray_time = new MasjidNow_PrayTime($settings["calc_method"]);
     $pray_time->setAsrMethod($settings["asr_juristic"]);
     $pray_time->setHighLatsMethod($settings["high_lats"]);
     $pray_time->setTimeFormat($settings["time_format"]);
