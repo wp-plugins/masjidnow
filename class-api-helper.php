@@ -351,7 +351,7 @@ class MasjidNow_APIHelper{
     {
       $iqamah_timings = $this->iqamah_timings;
       $day = $iqamah_timings["day"];
-      $month = $iqamah_timings["month"] + 1;
+      $month = $iqamah_timings["month"];
       $year = $iqamah_timings["year"];
       $iqamah_date_time = new DateTime("$year-$month-$day");
       return $iqamah_date_time;
