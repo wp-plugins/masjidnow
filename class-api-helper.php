@@ -191,9 +191,9 @@ class MasjidNow_APIHelper{
     
     $month_entry = $cache_entry["$month"];
     
-    //firstly, discard if older than 15 days
+    //firstly, discard if older than 1 day(s)
     $cached_timestamp = $month_entry["timestamp"];
-    if(time() - $cached_timestamp > 15*24*3600)
+    if(time() - $cached_timestamp > 24*3600)
     {
       //echo("Invalidating cache because it is too old!");
       $this->invalidate_cache($masjid_id, $month);
@@ -319,7 +319,7 @@ class MasjidNow_APIHelper{
         "asr" => $salah_timing->asr,
         "maghrib" => $salah_timing->maghrib,
         "isha" => $salah_timing->isha,
-        "month" => $salah_timing->month - 1,
+        "month" => $salah_timing->month,
         "day" => $salah_timing->day,
         "year" => $salah_timing->year
       );
