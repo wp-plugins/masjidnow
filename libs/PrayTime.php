@@ -71,7 +71,7 @@ http://praytimes.org/calculation
 
 //--------------------- PrayTime Class -----------------------
 
-class PrayTime
+class MasjidNow_PrayTime
 {
 
     //------------------------ Constants --------------------------
@@ -186,7 +186,7 @@ class PrayTime
     //----------------------- Constructors -------------------------
 
 
-    function PrayTime($methodID = 0)
+    function MasjidNow_PrayTime($methodID = 0)
     {
 
         $this->methodParams[$this->Jafari]    = array(16, 0, 4, 0, 14);
@@ -203,7 +203,7 @@ class PrayTime
 
     function __construct($methodID = 0)
     {
-        $this->PrayTime($methodID);
+        $this->MasjidNow_PrayTime($methodID);
     }
 
 
@@ -647,6 +647,6 @@ class PrayTime
 
 //---------------------- prayTime Object -----------------------
 
-$prayTime = new PrayTime();
+$prayTime = new MasjidNow_PrayTime();
 
 ?>
