@@ -148,11 +148,12 @@
  <div class='masjidnow-daily-footer'>
   <span class='masjidnow-alt-instructions'>Get these timings on:</span>
   <div class='masjidnow-alt-icons'>
+    <?php $title_text = $masjid_id % 2 == 1 ? "Get Adhan & Jamaat Timings on " : "Get Adhan & Iqamah Timings on " ?>
     <div class='masjidnow-alt-icon'>
-      <a href='http://www.masjidnow.com<?php echo($masjid_url)?>#mobile_instructions'><img src='<?php echo(plugins_url( "img\ic_android.png", __FILE__ )); ?>' height=30></a>
+      <a href='http://www.masjidnow.com<?php echo($masjid_url)?>#mobile_instructions' title="<?php echo $title_text ?>Android"><img src='<?php echo(plugins_url( "img\ic_android.png", __FILE__ )); ?>' height=30></a>
     </div>
     <div class='masjidnow-alt-icon'>
-      <a href='http://www.masjidnow.com<?php echo($masjid_url)?>#mobile_instructions'><img src='<?php echo(plugins_url( "img\ic_ios.png", __FILE__ )); ?>' height=30></a>
+      <a href='http://www.masjidnow.com<?php echo($masjid_url)?>#mobile_instructions' title="<?php echo $title_text ?> iOS"><img src='<?php echo(plugins_url( "img\ic_ios.png", __FILE__ )); ?>' height=30></a>
     </div>
   </div>
  </div>
