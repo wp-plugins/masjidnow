@@ -186,6 +186,11 @@ class MasjidNow_PrayTime
     //----------------------- Constructors -------------------------
 
 
+    function __construct($methodID = 0)
+    {
+        $this->MasjidNow_PrayTime($methodID);
+    }
+
     function MasjidNow_PrayTime($methodID = 0)
     {
 
@@ -199,11 +204,6 @@ class MasjidNow_PrayTime
         $this->methodParams[$this->Custom]    = array(18, 1, 0, 0, 17);
 
         $this->setCalcMethod($methodID);
-    }
-
-    function __construct($methodID = 0)
-    {
-        $this->MasjidNow_PrayTime($methodID);
     }
 
 

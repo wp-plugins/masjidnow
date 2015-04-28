@@ -154,7 +154,11 @@
  * ********
  * *************
  * **/
- 
+
+.masjidnow-monthly-container table{
+  width: 100%;
+}
+
 .masjidnow-month{
   font-size:16px;
   font-weight:bold;
@@ -164,7 +168,7 @@
 .masjidnow-iqamah-timings, .masjidnow-adhan-timings{
   text-align:center;
 }
- 
+
 .masjidnow-iqamah-timings td, .masjidnow-iqamah-timings th, .masjidnow-adhan-timings td, .masjidnow-adhan-timings th{
   padding:4px !important;
   text-align:center;
