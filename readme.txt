@@ -4,7 +4,7 @@ Donate link:
 Tags: masjidnow, iqamah, prayer, salah, islam, masjid, mosque, salat
 Requires at least: 3.5.1
 Tested up to: 4.1
-Stable tag: 1.5.6
+Stable tag: 1.5.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -142,6 +142,12 @@ For example, French users can enter "Ichaa" instead of "Isha", and all of Masjid
 Email me through the contact form at [masjidnow.com](http://masjidnow.com)
 
 == Changelog ==
+
+= 1.5.7 =
+* Made monthly tables take up 100% of width.
+
+= 1.5.7 =
+* Made shortcode more robust by adding error checks for timezone. Also added title attribute to mobile icon links.
 
 = 1.5.6 =
 * Reduced cache duration to 1 day from 15. Fixed big with "timings from" message showing incorrectly.

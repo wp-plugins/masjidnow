@@ -35,7 +35,7 @@ function MasjidNowMonthly_getOutput($attrs, $iqamah)
     }
   }
   
-  if(!empty($masjid_id))
+  if(!is_null($masjid_id))
   {
     $timings = MasjidNowMonthly_get_timings($masjid_id, $date_time, null, null);
     ob_start();

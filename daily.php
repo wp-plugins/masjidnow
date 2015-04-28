@@ -26,8 +26,18 @@ function MasjidNowDaily_getCombinedOutput($attrs)
   
   // need to do two seperate initializers because 
   // setting one to the other will make them reference the same object
-  $date_time_now = new DateTime("now", new DateTimeZone(get_option('timezone_string')));
-  $date_time = new DateTime("now", new DateTimeZone(get_option('timezone_string')));
+  $tz_string = get_option('timezone_string');
+  if($tz_string == "")
+  {
+    echo("<h2>!!!!!!!!!!! ERROR !!!!!!!!!!!!!!</h2>");
+    echo("MasjidNow requires you to set your timezone to a **named** timezone under your WordPress Admin Panel's Settings menu. (ex. Choose a timezone like \"New York\" instead of UTC -5)");
+    echo("<h2>!!!!!!!!!!! END ERROR !!!!!!!!!!!!!!</h2>");
+
+    $tz_string = "America/New_York";
+    
+  }
+  $date_time_now = new DateTime("now", new DateTimeZone($tz_string));
+  $date_time = new DateTime("now", new DateTimeZone($tz_string));
   
   
   $api_helper = new MasjidNow_APIHelper($masjid_id, $date_time, null, null);
